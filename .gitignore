@@ -1,0 +1,13 @@
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+
+dist/index.js
+dist/index.mjs
+!dist/noop.js
+!dist/noop.mjs
+
+.idea
+*.iml

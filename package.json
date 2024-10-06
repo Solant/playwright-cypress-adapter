@@ -1,0 +1,60 @@
+{
+  "name": "playwright-cypress-adapter",
+  "version": "0.1.0",
+  "description": "Run cypress test cases in playwright as they are",
+  "type": "module",
+  "scripts": {
+    "build": "rollup --config",
+    "test": "pnpm run lint && pnpm run test:unit && pnpm run test:e2e",
+    "test:unit": "vitest run",
+    "test:e2e": "playwright test",
+    "playwright:ui": "playwright test --ui",
+    "lint": "eslint",
+    "lint:fix": "eslint --fix",
+    "release": "pnpm test && pnpm build && pnpm changelogen --release --push && pnpm publish"
+  },
+  "exports": {
+    "import": {
+      "browser": "./dist/noop.mjs",
+      "default": "./dist/index.mjs"
+    },
+    "require": {
+      "browser": "./dist/noop.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "cypress",
+    "playwright",
+    "automation",
+    "browser",
+    "e2e"
+  ],
+  "bugs": {
+    "url": "https://github.com/Solant/playwright-cypress-adapter/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Solant/playwright-cypress-adapter.git"
+  },
+  "license": "MIT",
+  "packageManager": "pnpm@9.6.0+sha512.38dc6fba8dba35b39340b9700112c2fe1e12f10b17134715a4aa98ccf7bb035e76fd981cf0bb384dfa98f8d6af5481c2bef2f4266a24bfa20c34eb7147ce0b5e",
+  "devDependencies": {
+    "@stylistic/eslint-plugin": "^2.9.0",
+    "@types/node": "^22.4.2",
+    "changelogen": "^0.5.7",
+    "eslint": "^9.12.0",
+    "eslint-stylistic-airbnb": "^2.0.0",
+    "rollup": "^4.24.0",
+    "rollup-plugin-typescript2": "^0.36.0",
+    "typescript": "^5.6.2",
+    "typescript-eslint": "^8.8.0",
+    "vitest": "^2.1.1"
+  },
+  "peerDependencies": {
+    "@playwright/test": "^1.46.1"
+  }
+}
