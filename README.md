@@ -1,6 +1,6 @@
 # playwright-cypress-adapter
 
-A brief description of what this project does and who it's for
+Playwright compatibility layer to run cypress test cases without rewrites and modifications.
 
 ## Usage
 
