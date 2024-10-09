@@ -10,6 +10,10 @@ export default [
     plugins: {
       '@stylistic': stylistic,
     },
+    rules: {
+      'no-useless-constructor': 'off',
+      '@typescript-eslint/no-useless-constructor': 'error',
+    },
   },
   {
     ignores: ['tests/*', 'dist/*'],
