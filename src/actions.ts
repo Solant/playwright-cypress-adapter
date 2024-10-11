@@ -4,51 +4,52 @@ export type SpecialSelector = { modifier: 'first' } | { modifier: 'last' } | { m
 
 export type Selector = Array<string | SpecialSelector>;
 
-export type Action = {
+type AssertActions = {
+  type: 'assertion',
+  name: 'dom.length',
+  value: number,
+  negation?: boolean,
+} | {
+  type: 'assertion',
+  name: 'dom.text',
+  value: string,
+  negation?: boolean,
+} | {
+  type: 'assertion',
+  name: 'dom.class',
+  value: string,
+  negation?: boolean,
+} | {
+  type: 'assertion',
+  name: 'include',
+  value: string,
+  negation?: boolean,
+} | {
+  type: 'assertion',
+  name: 'dom.exist',
+  negation?: boolean,
+};
+
+export type Action = AssertActions | {
   type: 'navigate',
   url: string
 } | {
   type: 'locator',
-  selector: Selector
+  selector: Selector,
+  root: boolean,
 } | {
   type: 'fill',
-  selector: Selector,
   value: string,
 } | {
-  type: 'check',
-  selector: Selector,
+  type: 'check'
 } | {
   type: 'click',
-  selector: Selector,
 } | {
   type: 'keyboard',
   action: 'press',
   key: string,
 } | {
-  type: 'assertion',
-  subject: 'locator',
-  selector: Selector,
-  name: 'count',
-  value: number
-} | {
-  type: 'assertion',
-  subject: 'locator',
-  selector: Selector,
-  name: 'haveText',
-  value: string,
-  negation?: boolean
-} | {
-  type: 'assertion',
-  subject: 'locator',
-  selector: Selector,
-  name: 'haveClass',
-  value: string,
-} | {
-  type: 'assertion',
-  subject: 'locator',
-  selector: Selector,
-  name: 'exists',
-  negation?: boolean
+  type: 'title'
 };
 
 let queue: Array<Action> = [];
@@ -79,39 +80,81 @@ export function getLocator(page: Page, selector: Selector): Locator {
   return locator;
 }
 
-export async function evaluateAction(page: Page, action: Action) {
+export type Subject = { type: 'locator', value: Locator } | { type: 'value', value: unknown };
+
+export async function evaluateAction(
+  page: Page,
+  action: Action,
+  subject: Subject,
+): Promise<Subject> {
   switch (action.type) {
+    case 'locator': {
+      if (subject.value === null || action.root) {
+        return { type: 'locator', value: resolveSelectorItem(page, action.selector[0]) };
+      }
+      if (subject.type === 'locator') {
+        return { type: 'locator', value: resolveSelectorItem(subject.value, action.selector[0]) };
+      }
+      throw new Error('what');
+    }
     case 'navigate':
       await page.goto(action.url);
       break;
     case 'assertion':
       switch (action.name) {
-        case 'count':
-          await expect(getLocator(page, action.selector)).toHaveCount(action.value);
-          break;
-        case 'haveText':
-          if (action.negation) {
-            await expect(getLocator(page, action.selector)).not.toHaveText(action.value);
-          } else {
-            await expect(getLocator(page, action.selector)).toHaveText(action.value);
+        case 'dom.length':
+          if (subject.type !== 'locator') {
+            throw new Error(`count assertion expected locator, got ${subject.type} ${subject.value}`);
+          }
+          if (subject.type === 'locator') {
+            await expect(subject.value).toHaveCount(action.value);
           }
           break;
-        case 'haveClass':
-          await expect(getLocator(page, action.selector)).toHaveClass(new RegExp(action.value));
-          break;
-        case 'exists':
+        case 'dom.text':
+          if (subject.type !== 'locator') {
+            throw new Error(`count assertion expected locator, got ${subject.type} ${subject.value}`);
+          }
           if (action.negation) {
-            await expect(getLocator(page, action.selector)).toBeHidden();
+            await expect(subject.value).not.toHaveText(action.value);
           } else {
-            await expect(getLocator(page, action.selector)).toBeVisible();
+            await expect(subject.value).toHaveText(action.value);
+          }
+          break;
+        case 'dom.class':
+          if (subject.type !== 'locator') {
+            throw new Error(`count assertion expected locator, got ${subject.type} ${subject.value}`);
+          }
+          await expect(subject.value).toHaveClass(new RegExp(action.value));
+          break;
+        case 'dom.exist':
+          if (subject.type !== 'locator') {
+            throw new Error(`count assertion expected locator, got ${subject.type} ${subject.value}`);
+          }
+          if (action.negation) {
+            await expect(subject.value).toBeHidden();
+          } else {
+            await expect(subject.value).toBeVisible();
+          }
+          break;
+        case 'include':
+          if (subject.type !== 'value') {
+            throw new Error(`include assertion expected value, got ${subject.type} ${subject.value}`);
+          }
+          if (action.negation) {
+            expect(subject.value).not.toContain(action.value);
+          } else {
+            expect(subject.value).toContain(action.value);
           }
           break;
         default:
-          throw new Error(`Unknown assertion type "${(action as Record<string, string>).name}"`);
+          throw new Error(`Unknown assertion type "${(action as Record<string, unknown>).name}"`);
       }
       break;
     case 'fill':
-      await getLocator(page, action.selector).fill(action.value);
+      if (subject.type !== 'locator') {
+        throw new Error(`count assertion expected locator, got ${subject.type} ${subject.value}`);
+      }
+      await subject.value.fill(action.value);
       break;
     case 'keyboard':
       switch (action.action) {
@@ -123,14 +166,24 @@ export async function evaluateAction(page: Page, action: Action) {
       }
       break;
     case 'check':
-      await getLocator(page, action.selector).check();
+      if (subject.type !== 'locator') {
+        throw new Error(`count assertion expected locator, got ${subject.type} ${subject.value}`);
+      }
+      await subject.value.check();
       break;
     case 'click':
-      await getLocator(page, action.selector).click();
+      if (subject.type !== 'locator') {
+        throw new Error(`count assertion expected locator, got ${subject.type} ${subject.value}`);
+      }
+      await subject.value.click();
       break;
+    case 'title':
+      return { type: 'value', value: await page.title() };
     default:
-      throw new Error(`Action type "${action.type}" is not implemented`);
+      throw new Error(`Action type "${(action as Record<string, unknown>).type}" is not implemented`);
   }
+
+  return subject;
 }
 
 export function resetQueue() {

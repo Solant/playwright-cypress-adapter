@@ -1,6 +1,8 @@
 import { test } from '@playwright/test';
 
-import { resetQueue, cloneQueue, evaluateAction } from './actions';
+import {
+  resetQueue, cloneQueue, evaluateAction, Subject,
+} from './actions';
 import { cy } from './cy';
 
 export const { describe } = test;
@@ -13,10 +15,11 @@ export const beforeEach = (testBody: any) => {
   const localQueue = cloneQueue();
 
   test.beforeEach(async ({ page }) => {
+    let subject: Subject = { type: 'value', value: null };
     // eslint-disable-next-line no-restricted-syntax
     for (const action of localQueue) {
       // eslint-disable-next-line no-await-in-loop
-      await evaluateAction(page, action);
+      subject = await evaluateAction(page, action, subject);
     }
   });
 };
@@ -28,10 +31,11 @@ export function it(name: string, testBody: any) {
   const localQueue = cloneQueue();
 
   test(name, async ({ page }) => {
+    let subject: Subject = { type: 'value', value: null };
     // eslint-disable-next-line no-restricted-syntax
     for (const action of localQueue) {
       // eslint-disable-next-line no-await-in-loop
-      await evaluateAction(page, action);
+      subject = await evaluateAction(page, action, subject);
     }
   });
 }

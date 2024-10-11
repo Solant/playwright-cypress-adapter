@@ -1,247 +1,136 @@
 import {
-  inspectQueue, pushQueue, replaceQueue,
+  pushQueue,
 } from './actions';
 
-export const cy = {
+class Cy {
+  // eslint-disable-next-line no-empty-function
+  constructor(private root: boolean) {
+  }
+
+  private selfOrChild(): Cy {
+    return this.root ? new Cy(false) : this;
+  }
+
   visit(url: string) {
     pushQueue({ type: 'navigate', url });
-    return this;
-  },
+    return this.selfOrChild();
+  }
+
   get(selector: string) {
-    pushQueue({ type: 'locator', selector: [selector] });
-    return this;
-  },
+    pushQueue({ type: 'locator', selector: [selector], root: this.root });
+    return this.selfOrChild();
+  }
+
+  title() {
+    pushQueue({ type: 'title' });
+    return this.selfOrChild();
+  }
+
   first() {
-    const action = inspectQueue(-1);
-    if (action === undefined) {
-      throw new Error('.first() cannot be chained off "cy"');
-    }
-    if (action.type === 'assertion') {
-      pushQueue({
-        type: 'locator',
-        selector: [...action.selector, { modifier: 'first' }],
-      });
-      return this;
-    }
-    if (action.type !== 'locator') {
-      throw new Error(`"${action.type}" action doesn't yield DOM element`);
-    }
+    pushQueue({ type: 'locator', selector: [{ modifier: 'first' }], root: this.root });
+    return this.selfOrChild();
+  }
 
-    replaceQueue(-1, {
-      ...action,
-      selector: [...action.selector, { modifier: 'first' }],
-    });
-
-    return this;
-  },
   last() {
-    const action = inspectQueue(-1);
-    if (action === undefined) {
-      throw new Error('.first() cannot be chained off "cy"');
-    }
+    pushQueue({ type: 'locator', selector: [{ modifier: 'last' }], root: this.root });
+    return this.selfOrChild();
+  }
 
-    // last() can be chained off assertion
-    if (action.type === 'assertion') {
-      pushQueue({ type: 'locator', selector: [...action.selector, { modifier: 'last' }] });
-      return this;
-    }
-
-    if (action.type !== 'locator') {
-      throw new Error(`"${action.type}" action doesn't yield DOM element`);
-    }
-
-    replaceQueue(-1, {
-      ...action,
-      selector: [...action.selector, { modifier: 'last' }],
-    });
-
-    return this;
-  },
   contains(value: string) {
-    pushQueue({ type: 'locator', selector: [{ modifier: 'contains', value }] });
-    return this;
-  },
+    pushQueue({ type: 'locator', selector: [{ modifier: 'contains', value }], root: this.root });
+    return this.selfOrChild();
+  }
+
   check() {
-    const action = inspectQueue(-1);
-    if (action === undefined) {
-      throw new Error('.check() cannot be chained off "cy"');
-    }
-    if (action.type !== 'locator') {
-      throw new Error(`"${action.type}" action doesn't yield DOM element`);
-    }
+    pushQueue({ type: 'check' });
+    return this.selfOrChild();
+  }
 
-    replaceQueue(-1, {
-      type: 'check',
-      selector: action.selector,
-    });
-
-    return this;
-  },
   click() {
-    const action = inspectQueue(-1);
-    if (action === undefined) {
-      throw new Error('.check() cannot be chained off "cy"');
-    }
-    if (action.type !== 'locator') {
-      throw new Error(`"${action.type}" action doesn't yield DOM element`);
-    }
+    pushQueue({ type: 'click' });
+    return this.selfOrChild();
+  }
 
-    replaceQueue(-1, {
-      type: 'click',
-      selector: action.selector,
-    });
-
-    return this;
-  },
   parent() {
-    const action = inspectQueue(-1);
-    if (action === undefined) {
-      throw new Error('.parent() cannot be chained off "cy"');
-    }
-    if (action.type !== 'locator') {
-      throw new Error(`"${action.type}" action doesn't yield DOM element`);
-    }
+    pushQueue({ type: 'locator', selector: ['xpath=..'], root: this.root });
+    return this.selfOrChild();
+  }
 
-    replaceQueue(-1, { type: 'locator', selector: [...action.selector, 'xpath=..'] });
-
-    return this;
-  },
   parents(selector: string) {
-    const action = inspectQueue(-1);
-    if (action === undefined) {
-      throw new Error('.parents() cannot be chained off "cy"');
-    }
-    if (action.type !== 'locator') {
-      throw new Error(`"${action.type}" action doesn't yield DOM element`);
-    }
+    pushQueue({ type: 'locator', selector: [`xpath=ancestor::${selector}`], root: this.root });
+    return this.selfOrChild();
+  }
 
-    replaceQueue(-1, { type: 'locator', selector: [...action.selector, `xpath=ancestor::${selector}`] });
-
-    return this;
-  },
   find(selector: string) {
-    const action = inspectQueue(-1);
-    if (action === undefined) {
-      throw new Error('.find() cannot be chained off "cy"');
-    }
-    if (action.type !== 'locator') {
-      throw new Error(`"${action.type}" action doesn't yield DOM element`);
-    }
+    pushQueue({ type: 'locator', selector: [selector], root: this.root });
+    return this.selfOrChild();
+  }
 
-    replaceQueue(-1, { type: 'locator', selector: [...action.selector, selector] });
-
-    return this;
-  },
   should(assertion: string, value: string | number) {
     switch (assertion) {
-      case 'have.length': {
-        const action = inspectQueue(-1);
-        if (action === undefined) {
-          throw new Error('.should() cannot be chained off "cy"');
-        }
-        if (action.type !== 'locator') {
-          throw new Error(`"${action.type}" action doesn't yield DOM element`);
-        }
-
-        replaceQueue(-1, {
+      case 'have.length':
+      case 'not.have.length': {
+        pushQueue({
           type: 'assertion',
-          subject: 'locator',
-          selector: action.selector,
-          name: 'count',
+          name: 'dom.length',
           value: value as number,
+          negation: assertion.startsWith('not'),
         });
         break;
       }
       case 'have.text':
       case 'not.have.text': {
-        const action = inspectQueue(-1);
-        if (action === undefined) {
-          throw new Error('.should() cannot be chained off "cy"');
-        }
-        if (action.type === 'assertion') {
-          pushQueue({
-            type: 'assertion',
-            subject: 'locator',
-            selector: [...action.selector],
-            name: 'haveText',
-            value: value as string,
-            negation: assertion.startsWith('not'),
-          });
-          break;
-        }
-        if (action.type !== 'locator') {
-          throw new Error(`"${action.type}" action doesn't yield DOM element`);
-        }
-
-        replaceQueue(-1, {
+        pushQueue({
           type: 'assertion',
-          subject: 'locator',
-          selector: action.selector,
-          name: 'haveText',
+          name: 'dom.text',
           value: value as string,
           negation: assertion.startsWith('not'),
         });
         break;
       }
-      case 'have.class': {
-        const action = inspectQueue(-1);
-        if (action === undefined) {
-          throw new Error('.should() cannot be chained off "cy"');
-        }
-        if (action.type !== 'locator') {
-          throw new Error(`"${action.type}" action doesn't yield DOM element`);
-        }
-
-        replaceQueue(-1, {
+      case 'have.class':
+      case 'not.have.class': {
+        pushQueue({
           type: 'assertion',
-          subject: 'locator',
-          selector: action.selector,
-          name: 'haveClass',
+          name: 'dom.class',
           value: value as string,
-        });
-        break;
-      }
-      case 'not.exist':
-      case 'exist': {
-        const action = inspectQueue(-1);
-        if (action === undefined) {
-          throw new Error('.should() cannot be chained off "cy"');
-        }
-        if (action.type !== 'locator') {
-          throw new Error(`"${action.type}" action doesn't yield DOM element`);
-        }
-
-        replaceQueue(-1, {
-          type: 'assertion',
-          subject: 'locator',
-          selector: action.selector,
-          name: 'exists',
           negation: assertion.startsWith('not'),
         });
         break;
       }
+      case 'exist':
+      case 'not.exist': {
+        pushQueue({
+          type: 'assertion',
+          name: 'dom.exist',
+          negation: assertion.startsWith('not'),
+        });
+        break;
+      }
+      case 'include':
+      case 'contain':
+      case 'includes':
+      case 'contains':
+        pushQueue({
+          type: 'assertion',
+          name: 'include',
+          value: value as string,
+        });
+        break;
       default: {
         throw new Error(`Unknown assertion "${assertion}"`);
       }
     }
 
-    return this;
-  },
-  type(value: string) {
-    const action = inspectQueue(-1);
-    if (action === undefined) {
-      throw new Error('.type() cannot be chained off "cy"');
-    }
-    if (action.type !== 'locator') {
-      throw new Error(`"${action.type}" action doesn't yield DOM element`);
-    }
+    return this.selfOrChild();
+  }
 
+  type(value: string) {
     // TODO: remove
     const newValue = value.replace('{enter}', '');
 
-    replaceQueue(-1, {
+    pushQueue({
       type: 'fill',
-      selector: action.selector,
       value: newValue,
     });
 
@@ -253,5 +142,9 @@ export const cy = {
         key: 'Enter',
       });
     }
-  },
-};
+
+    return this.selfOrChild();
+  }
+}
+
+export const cy = new Cy(true);

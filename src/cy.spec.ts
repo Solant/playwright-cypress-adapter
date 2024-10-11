@@ -25,6 +25,7 @@ describe('cy.get()', () => {
         url: 'https://google.com',
       },
       {
+        root: false,
         type: 'locator',
         selector: ['.input'],
       },
@@ -41,8 +42,12 @@ describe('cy.type()', () => {
         url: 'https://google.com',
       },
       {
-        type: 'fill',
+        type: 'locator',
+        root: false,
         selector: ['.input'],
+      },
+      {
+        type: 'fill',
         value: 'Hello',
       },
     ] satisfies Action[]);
@@ -58,11 +63,15 @@ describe('cy.should()', () => {
         url: 'https://google.com',
       },
       {
-        type: 'assertion',
-        subject: 'locator',
-        name: 'count',
+        type: 'locator',
+        root: false,
         selector: ['.input'],
+      },
+      {
+        type: 'assertion',
+        name: 'dom.length',
         value: 2,
+        negation: false,
       },
     ] satisfies Action[]);
   });
