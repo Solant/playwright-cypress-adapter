@@ -80,7 +80,7 @@
 | [.clearCookies()](https://docs.cypress.io/api/commands/clearcookies)                      |      🕓      |    🕓     |       |
 | [.clearLocalStorage()](https://docs.cypress.io/api/commands/clearlocalstorage)            |      🕓      |    🕓     |       |
 | [.clock()](https://docs.cypress.io/api/commands/clock)                                    |      🕓      |    🕓     |       |
-| [.debug()](https://docs.cypress.io/api/commands/debug)                                    |      🕓      |    🕓     |       |
+| [.debug()](https://docs.cypress.io/api/commands/debug)                                    |      ✅       |     -     |       |
 | [.each()](https://docs.cypress.io/api/commands/each)                                      |      🕓      |    🕓     |       |
 | [.end()](https://docs.cypress.io/api/commands/end)                                        |      🕓      |    🕓     |       |
 | [.exec()](https://docs.cypress.io/api/commands/exec)                                      |      🕓      |    🕓     |       |
@@ -97,7 +97,7 @@
 | [.log()](https://docs.cypress.io/api/commands/log)                                        |      🕓      |    🕓     |       |
 | [.mount()](https://docs.cypress.io/api/commands/mount)                                    |      🕓      |    🕓     |       |
 | [.origin()](https://docs.cypress.io/api/commands/origin)                                  |      🕓      |    🕓     |       |
-| [.pause()](https://docs.cypress.io/api/commands/pause)                                    |      🕓      |    🕓     |       |
+| [.pause()](https://docs.cypress.io/api/commands/pause)                                    |      ✅       |     -     |       |
 | [.reload()](https://docs.cypress.io/api/commands/reload)                                  |      🕓      |    🕓     |       |
 | [.request()](https://docs.cypress.io/api/commands/request)                                |      🕓      |    🕓     |       |
 | [.screenshot()](https://docs.cypress.io/api/commands/screenshot)                          |      🕓      |    🕓     |       |

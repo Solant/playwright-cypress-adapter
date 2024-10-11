@@ -50,6 +50,8 @@ export type Action = AssertActions | {
   key: string,
 } | {
   type: 'title'
+} | {
+  type: 'pause'
 };
 
 let queue: Array<Action> = [];
@@ -68,16 +70,6 @@ function resolveSelectorItem(parent: Locator | Page, selector: Selector[number])
     default:
       throw new Error(`Unknown selector modifier ${(selector as SpecialSelector).modifier}`);
   }
-}
-
-export function getLocator(page: Page, selector: Selector): Locator {
-  let locator = resolveSelectorItem(page, selector[0]);
-
-  for (let i = 1; i < selector.length; i += 1) {
-    locator = resolveSelectorItem(locator, selector[i]);
-  }
-
-  return locator;
 }
 
 export type Subject = { type: 'locator', value: Locator } | { type: 'value', value: unknown };
@@ -179,6 +171,9 @@ export async function evaluateAction(
       break;
     case 'title':
       return { type: 'value', value: await page.title() };
+    case 'pause':
+      await page.pause();
+      break;
     default:
       throw new Error(`Action type "${(action as Record<string, unknown>).type}" is not implemented`);
   }

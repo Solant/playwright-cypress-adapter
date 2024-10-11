@@ -26,6 +26,16 @@ class Cy {
     return this.selfOrChild();
   }
 
+  debug() {
+    pushQueue({ type: 'pause' });
+    return this.selfOrChild();
+  }
+
+  pause() {
+    pushQueue({ type: 'pause' });
+    return this.selfOrChild();
+  }
+
   first() {
     pushQueue({ type: 'locator', selector: [{ modifier: 'first' }], root: this.root });
     return this.selfOrChild();
