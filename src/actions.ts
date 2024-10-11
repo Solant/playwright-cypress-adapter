@@ -28,6 +28,11 @@ type AssertActions = {
   type: 'assertion',
   name: 'dom.exist',
   negation?: boolean,
+} | {
+  type: 'assertion',
+  name: 'property',
+  value: string,
+  negation?: boolean,
 };
 
 export type Action = AssertActions | {
@@ -52,6 +57,9 @@ export type Action = AssertActions | {
   type: 'title'
 } | {
   type: 'pause'
+} | {
+  type: 'subject',
+  value: unknown,
 };
 
 let queue: Array<Action> = [];
@@ -80,6 +88,12 @@ export async function evaluateAction(
   subject: Subject,
 ): Promise<Subject> {
   switch (action.type) {
+    case 'subject': {
+      if (action.value instanceof Promise) {
+        return { type: 'value', value: await action.value };
+      }
+      return { type: 'value', value: action.value };
+    }
     case 'locator': {
       if (subject.value === null || action.root) {
         return { type: 'locator', value: resolveSelectorItem(page, action.selector[0]) };
@@ -136,6 +150,13 @@ export async function evaluateAction(
             expect(subject.value).not.toContain(action.value);
           } else {
             expect(subject.value).toContain(action.value);
+          }
+          break;
+        case 'property':
+          if (action.negation) {
+            expect(subject.value).not.toHaveProperty(action.value);
+          } else {
+            expect(subject.value).toHaveProperty(action.value);
           }
           break;
         default:

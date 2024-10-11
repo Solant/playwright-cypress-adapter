@@ -70,52 +70,52 @@
 
 ## Other commands
 
-| Command                                                                                   | Basic syntax | Arguments | Notes |
-|-------------------------------------------------------------------------------------------|:------------:|:---------:|-------|
-| [.blur()](https://docs.cypress.io/api/commands/blur)                                      |      🕓      |    🕓     |       |
-| [.clearAllCookies()](https://docs.cypress.io/api/commands/clearallcookies)                |      🕓      |    🕓     |       |
-| [.clearAllLocalStorage()](https://docs.cypress.io/api/commands/clearalllocalstorage)      |      🕓      |    🕓     |       |
-| [.clearAllSessionStorage()](https://docs.cypress.io/api/commands/clearallsessionstorage/) |      🕓      |    🕓     |       |
-| [.clearCookie()](https://docs.cypress.io/api/commands/clearcookie)                        |      🕓      |    🕓     |       |
-| [.clearCookies()](https://docs.cypress.io/api/commands/clearcookies)                      |      🕓      |    🕓     |       |
-| [.clearLocalStorage()](https://docs.cypress.io/api/commands/clearlocalstorage)            |      🕓      |    🕓     |       |
-| [.clock()](https://docs.cypress.io/api/commands/clock)                                    |      🕓      |    🕓     |       |
-| [.debug()](https://docs.cypress.io/api/commands/debug)                                    |      ✅       |     -     |       |
-| [.each()](https://docs.cypress.io/api/commands/each)                                      |      🕓      |    🕓     |       |
-| [.end()](https://docs.cypress.io/api/commands/end)                                        |      🕓      |    🕓     |       |
-| [.exec()](https://docs.cypress.io/api/commands/exec)                                      |      🕓      |    🕓     |       |
-| [.fixture()](https://docs.cypress.io/api/commands/fixture)                                |      🕓      |    🕓     |       |
-| [.focus()](https://docs.cypress.io/api/commands/focus)                                    |      🕓      |    🕓     |       |
-| [.getAllCookies()](https://docs.cypress.io/api/commands/getallcookies)                    |      🕓      |    🕓     |       |
-| [.getAllLocalStorage()](https://docs.cypress.io/api/commands/getalllocalstorage)          |      🕓      |    🕓     |       |
-| [.getAllSessionStorage()](https://docs.cypress.io/api/commands/getallsessionstorage)      |      🕓      |    🕓     |       |
-| [.getCookie()](https://docs.cypress.io/api/commands/getcookie)                            |      🕓      |    🕓     |       |
-| [.getCookies()](https://docs.cypress.io/api/commands/getcookies)                          |      🕓      |    🕓     |       |
-| [.go()](https://docs.cypress.io/api/commands/go)                                          |      🕓      |    🕓     |       |
-| [.hover()](https://docs.cypress.io/api/commands/hover)                                    |      🕓      |    🕓     |       |
-| [.intercept()](https://docs.cypress.io/api/commands/intercept)                            |      🕓      |    🕓     |       |
-| [.log()](https://docs.cypress.io/api/commands/log)                                        |      🕓      |    🕓     |       |
-| [.mount()](https://docs.cypress.io/api/commands/mount)                                    |      🕓      |    🕓     |       |
-| [.origin()](https://docs.cypress.io/api/commands/origin)                                  |      🕓      |    🕓     |       |
-| [.pause()](https://docs.cypress.io/api/commands/pause)                                    |      ✅       |     -     |       |
-| [.reload()](https://docs.cypress.io/api/commands/reload)                                  |      🕓      |    🕓     |       |
-| [.request()](https://docs.cypress.io/api/commands/request)                                |      🕓      |    🕓     |       |
-| [.screenshot()](https://docs.cypress.io/api/commands/screenshot)                          |      🕓      |    🕓     |       |
-| [.session()](https://docs.cypress.io/api/commands/session)                                |      🕓      |    🕓     |       |
-| [.setCookie()](https://docs.cypress.io/api/commands/setcookie)                            |      🕓      |    🕓     |       |
-| [.spread()](https://docs.cypress.io/api/commands/spread)                                  |      🕓      |    🕓     |       |
-| [.spy()](https://docs.cypress.io/api/commands/spy)                                        |      🕓      |    🕓     |       |
-| [.stub()](https://docs.cypress.io/api/commands/stub)                                      |      🕓      |    🕓     |       |
-| [.submit()](https://docs.cypress.io/api/commands/submit)                                  |      🕓      |    🕓     |       |
-| [.task()](https://docs.cypress.io/api/commands/task)                                      |      🕓      |    🕓     |       |
-| [.then()](https://docs.cypress.io/api/commands/then)                                      |      🕓      |    🕓     |       |
-| [.tick()](https://docs.cypress.io/api/commands/tick)                                      |      🕓      |    🕓     |       |
-| [.viewport()](https://docs.cypress.io/api/commands/viewport)                              |      🕓      |    🕓     |       |
-| [.visit()](https://docs.cypress.io/api/commands/visit)                                    |      ✅       |    🕓     |       |
-| [.wait()](https://docs.cypress.io/api/commands/wait)                                      |      🕓      |    🕓     |       |
-| [.within()](https://docs.cypress.io/api/commands/within)                                  |      🕓      |    🕓     |       |
-| [.wrap()](https://docs.cypress.io/api/commands/wrap)                                      |      🕓      |    🕓     |       |
-| [.writeFile()](https://docs.cypress.io/api/commands/writefile)                            |      🕓      |    🕓     |       |
+| Command                                                                                   | Basic syntax | Arguments | Notes                       |
+|-------------------------------------------------------------------------------------------|:------------:|:---------:|-----------------------------|
+| [.blur()](https://docs.cypress.io/api/commands/blur)                                      |      🕓      |    🕓     |                             |
+| [.clearAllCookies()](https://docs.cypress.io/api/commands/clearallcookies)                |      🕓      |    🕓     |                             |
+| [.clearAllLocalStorage()](https://docs.cypress.io/api/commands/clearalllocalstorage)      |      🕓      |    🕓     |                             |
+| [.clearAllSessionStorage()](https://docs.cypress.io/api/commands/clearallsessionstorage/) |      🕓      |    🕓     |                             |
+| [.clearCookie()](https://docs.cypress.io/api/commands/clearcookie)                        |      🕓      |    🕓     |                             |
+| [.clearCookies()](https://docs.cypress.io/api/commands/clearcookies)                      |      🕓      |    🕓     |                             |
+| [.clearLocalStorage()](https://docs.cypress.io/api/commands/clearlocalstorage)            |      🕓      |    🕓     |                             |
+| [.clock()](https://docs.cypress.io/api/commands/clock)                                    |      🕓      |    🕓     |                             |
+| [.debug()](https://docs.cypress.io/api/commands/debug)                                    |      ✅       |     -     |                             |
+| [.each()](https://docs.cypress.io/api/commands/each)                                      |      🕓      |    🕓     |                             |
+| [.end()](https://docs.cypress.io/api/commands/end)                                        |      🕓      |    🕓     |                             |
+| [.exec()](https://docs.cypress.io/api/commands/exec)                                      |      🕓      |    🕓     |                             |
+| [.fixture()](https://docs.cypress.io/api/commands/fixture)                                |      🕓      |    🕓     |                             |
+| [.focus()](https://docs.cypress.io/api/commands/focus)                                    |      🕓      |    🕓     |                             |
+| [.getAllCookies()](https://docs.cypress.io/api/commands/getallcookies)                    |      🕓      |    🕓     |                             |
+| [.getAllLocalStorage()](https://docs.cypress.io/api/commands/getalllocalstorage)          |      🕓      |    🕓     |                             |
+| [.getAllSessionStorage()](https://docs.cypress.io/api/commands/getallsessionstorage)      |      🕓      |    🕓     |                             |
+| [.getCookie()](https://docs.cypress.io/api/commands/getcookie)                            |      🕓      |    🕓     |                             |
+| [.getCookies()](https://docs.cypress.io/api/commands/getcookies)                          |      🕓      |    🕓     |                             |
+| [.go()](https://docs.cypress.io/api/commands/go)                                          |      🕓      |    🕓     |                             |
+| [.hover()](https://docs.cypress.io/api/commands/hover)                                    |      🕓      |    🕓     |                             |
+| [.intercept()](https://docs.cypress.io/api/commands/intercept)                            |      🕓      |    🕓     |                             |
+| [.log()](https://docs.cypress.io/api/commands/log)                                        |      🕓      |    🕓     |                             |
+| [.mount()](https://docs.cypress.io/api/commands/mount)                                    |      🕓      |    🕓     |                             |
+| [.origin()](https://docs.cypress.io/api/commands/origin)                                  |      🕓      |    🕓     |                             |
+| [.pause()](https://docs.cypress.io/api/commands/pause)                                    |      ✅       |     -     |                             |
+| [.reload()](https://docs.cypress.io/api/commands/reload)                                  |      🕓      |    🕓     |                             |
+| [.request()](https://docs.cypress.io/api/commands/request)                                |      🕓      |    🕓     |                             |
+| [.screenshot()](https://docs.cypress.io/api/commands/screenshot)                          |      🕓      |    🕓     |                             |
+| [.session()](https://docs.cypress.io/api/commands/session)                                |      🕓      |    🕓     |                             |
+| [.setCookie()](https://docs.cypress.io/api/commands/setcookie)                            |      🕓      |    🕓     |                             |
+| [.spread()](https://docs.cypress.io/api/commands/spread)                                  |      🕓      |    🕓     |                             |
+| [.spy()](https://docs.cypress.io/api/commands/spy)                                        |      🕓      |    🕓     |                             |
+| [.stub()](https://docs.cypress.io/api/commands/stub)                                      |      🕓      |    🕓     |                             |
+| [.submit()](https://docs.cypress.io/api/commands/submit)                                  |      🕓      |    🕓     |                             |
+| [.task()](https://docs.cypress.io/api/commands/task)                                      |      🕓      |    🕓     |                             |
+| [.then()](https://docs.cypress.io/api/commands/then)                                      |      🕓      |    🕓     |                             |
+| [.tick()](https://docs.cypress.io/api/commands/tick)                                      |      🕓      |    🕓     |                             |
+| [.viewport()](https://docs.cypress.io/api/commands/viewport)                              |      🕓      |    🕓     |                             |
+| [.visit()](https://docs.cypress.io/api/commands/visit)                                    |      ✅       |    🕓     |                             |
+| [.wait()](https://docs.cypress.io/api/commands/wait)                                      |      🕓      |    🕓     |                             |
+| [.within()](https://docs.cypress.io/api/commands/within)                                  |      🕓      |    🕓     |                             |
+| [.wrap()](https://docs.cypress.io/api/commands/wrap)                                      |      ⚠️      |     -     | Only JS values and promises |
+| [.writeFile()](https://docs.cypress.io/api/commands/writefile)                            |      🕓      |    🕓     |                             |
 
 ## Cypress API
 

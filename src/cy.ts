@@ -2,6 +2,35 @@ import {
   pushQueue,
 } from './actions';
 
+const LANGUAGE_CHAINS = [
+  'to',
+  'be',
+  'been',
+  'is',
+  'that',
+  'which',
+  'and',
+  'has',
+  'have',
+  'with',
+  'at',
+  'of',
+  'same',
+  'but',
+  'does',
+  'still',
+  'also',
+];
+
+function parseBddChain(assertion: string): { negation: boolean, assertion: string } {
+  let parts = assertion.split('.').filter((part) => !LANGUAGE_CHAINS.includes(part));
+
+  const negation = parts.includes('not');
+  parts = parts.filter((part) => part !== 'not');
+
+  return { negation, assertion: parts[0] };
+}
+
 class Cy {
   // eslint-disable-next-line no-empty-function
   constructor(private root: boolean) {
@@ -33,6 +62,11 @@ class Cy {
 
   pause() {
     pushQueue({ type: 'pause' });
+    return this.selfOrChild();
+  }
+
+  wrap(value: unknown) {
+    pushQueue({ type: 'subject', value });
     return this.selfOrChild();
   }
 
@@ -76,44 +110,41 @@ class Cy {
     return this.selfOrChild();
   }
 
-  should(assertion: string, value: string | number) {
+  should(assertionChain: string, value: string | number) {
+    const { assertion, negation } = parseBddChain(assertionChain);
     switch (assertion) {
-      case 'have.length':
-      case 'not.have.length': {
+      case 'length': {
         pushQueue({
           type: 'assertion',
           name: 'dom.length',
           value: value as number,
-          negation: assertion.startsWith('not'),
+          negation,
         });
         break;
       }
-      case 'have.text':
-      case 'not.have.text': {
+      case 'text': {
         pushQueue({
           type: 'assertion',
           name: 'dom.text',
           value: value as string,
-          negation: assertion.startsWith('not'),
+          negation,
         });
         break;
       }
-      case 'have.class':
-      case 'not.have.class': {
+      case 'class': {
         pushQueue({
           type: 'assertion',
           name: 'dom.class',
           value: value as string,
-          negation: assertion.startsWith('not'),
+          negation,
         });
         break;
       }
-      case 'exist':
-      case 'not.exist': {
+      case 'exist': {
         pushQueue({
           type: 'assertion',
           name: 'dom.exist',
-          negation: assertion.startsWith('not'),
+          negation,
         });
         break;
       }
@@ -125,6 +156,15 @@ class Cy {
           type: 'assertion',
           name: 'include',
           value: value as string,
+          negation,
+        });
+        break;
+      case 'property':
+        pushQueue({
+          type: 'assertion',
+          name: 'property',
+          value: value as string,
+          negation,
         });
         break;
       default: {
