@@ -1,6 +1,9 @@
 import { expect, Locator, Page } from '@playwright/test';
 
-export type SpecialSelector = { modifier: 'first' } | { modifier: 'last' } | { modifier: 'contains', value: string };
+export type SpecialSelector = { modifier: 'first' } | { modifier: 'last' } | { modifier: 'contains', value: string } | {
+  modifier: 'nth',
+  value: number
+};
 
 export type Selector = Array<string | SpecialSelector>;
 
@@ -75,6 +78,8 @@ function resolveSelectorItem(parent: Locator | Page, selector: Selector[number])
       return (parent as Locator).first();
     case 'last':
       return (parent as Locator).last();
+    case 'nth':
+      return (parent as Locator).nth(selector.value);
     default:
       throw new Error(`Unknown selector modifier ${(selector as SpecialSelector).modifier}`);
   }
@@ -143,13 +148,16 @@ export async function evaluateAction(
           }
           break;
         case 'include':
-          if (subject.type !== 'value') {
-            throw new Error(`include assertion expected value, got ${subject.type} ${subject.value}`);
-          }
-          if (action.negation) {
-            expect(subject.value).not.toContain(action.value);
+          if (subject.type === 'value') {
+            if (action.negation) {
+              expect(subject.value).not.toContain(action.value);
+            } else {
+              expect(subject.value).toContain(action.value);
+            }
+          } else if (action.negation) {
+            await expect(subject.value).not.toContainText(action.value);
           } else {
-            expect(subject.value).toContain(action.value);
+            await expect(subject.value).toContainText(action.value);
           }
           break;
         case 'property':

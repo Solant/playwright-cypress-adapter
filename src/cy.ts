@@ -110,6 +110,11 @@ class Cy {
     return this.selfOrChild();
   }
 
+  its(index: number) {
+    pushQueue({ type: 'locator', selector: [{ modifier: 'nth', value: index }], root: this.root });
+    return this.selfOrChild();
+  }
+
   should(assertionChain: string, value: string | number) {
     const { assertion, negation } = parseBddChain(assertionChain);
     switch (assertion) {
