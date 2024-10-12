@@ -97,6 +97,11 @@ class Cy {
     return this.selfOrChild();
   }
 
+  wait(value: number | string) {
+    pushQueue({ type: 'wait', value: value as number });
+    return this.selfOrChild();
+  }
+
   parent() {
     pushQueue({ type: 'locator', selector: ['xpath=..'], root: this.root });
     return this.selfOrChild();

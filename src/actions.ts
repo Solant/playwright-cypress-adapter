@@ -63,6 +63,9 @@ export type Action = AssertActions | {
 } | {
   type: 'subject',
   value: unknown,
+} | {
+  type: 'wait',
+  value: number,
 };
 
 let queue: Array<Action> = [];
@@ -202,6 +205,9 @@ export async function evaluateAction(
       return { type: 'value', value: await page.title() };
     case 'pause':
       await page.pause();
+      break;
+    case 'wait':
+      await page.waitForTimeout(action.value);
       break;
     default:
       throw new Error(`Action type "${(action as Record<string, unknown>).type}" is not implemented`);
