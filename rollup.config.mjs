@@ -13,5 +13,5 @@ export default {
     },
   ],
   plugins: [typescript()],
-  external: ['@playwright/test'],
+  external: ['@playwright/test', /node:/],
 };
