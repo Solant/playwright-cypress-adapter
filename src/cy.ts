@@ -1,3 +1,5 @@
+import { arch, platform } from 'node:os';
+
 import {
   pushQueue,
 } from './actions';
@@ -203,3 +205,12 @@ class Cy {
 }
 
 export const cy = new Cy(true);
+
+export const Cypress = {
+  isCy(arg: unknown) {
+    return arg instanceof Cy;
+  },
+  arch: arch(),
+  platform: platform(),
+  version: '12.0.0',
+};

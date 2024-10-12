@@ -124,7 +124,7 @@
 | [Catalog of Events](https://docs.cypress.io/api/cypress-api/catalog-of-events)                  |      🕓      |    🕓     |       |
 | [Custom Commands](https://docs.cypress.io/api/cypress-api/custom-commands)                      |      🕓      |    🕓     |       |
 | [Custom Queries](https://docs.cypress.io/api/cypress-api/custom-queries)                        |      🕓      |    🕓     |       |
-| [Cypress.arch()](https://docs.cypress.io/api/cypress-api/arch)                                  |      🕓      |    🕓     |       |
+| [Cypress.arch](https://docs.cypress.io/api/cypress-api/arch)                                    |      ✅       |     -     |       |
 | [Cypress.browser()](https://docs.cypress.io/api/cypress-api/browser)                            |      🕓      |    🕓     |       |
 | [Cypress.config()](https://docs.cypress.io/api/cypress-api/config)                              |      🕓      |    🕓     |       |
 | [Cypress.Cookies()](https://docs.cypress.io/api/cypress-api/cookies)                            |      🕓      |    🕓     |       |
@@ -137,14 +137,14 @@
 | [Cypress.isBrowser()](https://docs.cypress.io/api/cypress-api/isbrowser)                        |      🕓      |    🕓     |       |
 | [Cypress.isCy()](https://docs.cypress.io/api/cypress-api/iscy)                                  |      🕓      |    🕓     |       |
 | [Cypress.Keyboard()](https://docs.cypress.io/api/cypress-api/keyboard-api)                      |      🕓      |    🕓     |       |
-| [Cypress.platform()](https://docs.cypress.io/api/cypress-api/platform)                          |      🕓      |    🕓     |       |
+| [Cypress.platform](https://docs.cypress.io/api/cypress-api/platform)                            |      ✅       |     -     |       |
 | [Cypress.require()](https://docs.cypress.io/api/cypress-api/require)                            |      🕓      |    🕓     |       |
 | [Cypress.Screenshot()](https://docs.cypress.io/api/cypress-api/screenshot-api)                  |      🕓      |    🕓     |       |
 | [Cypress.SelectorPlayground()](https://docs.cypress.io/api/cypress-api/selector-playground-api) |      🕓      |    🕓     |       |
 | [Cypress.session()](https://docs.cypress.io/api/cypress-api/session)                            |      🕓      |    🕓     |       |
 | [Cypress.spec()](https://docs.cypress.io/api/cypress-api/spec)                                  |      🕓      |    🕓     |       |
 | [Cypress.testingType()](https://docs.cypress.io/api/cypress-api/testing-type)                   |      🕓      |    🕓     |       |
-| [Cypress.version()](https://docs.cypress.io/api/cypress-api/version)                            |      🕓      |    🕓     |       |
+| [Cypress.version](https://docs.cypress.io/api/cypress-api/version)                              |      ✅       |     -     |       |
 
 ### 1. Forcing interaction
 
