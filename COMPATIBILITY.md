@@ -10,7 +10,7 @@
 | Command                                                              | Basic syntax | Arguments | Notes                                |
 |----------------------------------------------------------------------|:------------:|:---------:|--------------------------------------|
 | [.as()](https://docs.cypress.io/api/commands/as)                     |      ⚠️      |    ⚠️     | Supports wrapped values and elements |
-| [.children()](https://docs.cypress.io/api/commands/children)         |      🕓      |    🕓     |                                      |
+| [.children()](https://docs.cypress.io/api/commands/children)         |      ✅       |    🕓     |                                      |
 | [.closest()](https://docs.cypress.io/api/commands/closest)           |      🕓      |    🕓     |                                      |
 | [.contains()](https://docs.cypress.io/api/commands/contains)         |      ✅       |    🕓     |                                      |
 | [.document()](https://docs.cypress.io/api/commands/document)         |      🕓      |    🕓     |                                      |
