@@ -72,6 +72,15 @@ class Cy {
     return this.selfOrChild();
   }
 
+  children(query?: string) {
+    if (this.root) {
+      throw new Error('.children() cannot be chained off "cy"');
+    }
+
+    pushQueue({ type: 'locator', selector: [query ?? ':scope > *'], root: this.root });
+    return this.selfOrChild();
+  }
+
   first() {
     pushQueue({ type: 'locator', selector: [{ modifier: 'first' }], root: this.root });
     return this.selfOrChild();
@@ -126,7 +135,7 @@ class Cy {
     return this.selfOrChild();
   }
 
-  its(index: number) {
+  eq(index: number) {
     pushQueue({ type: 'locator', selector: [{ modifier: 'nth', value: index }], root: this.root });
     return this.selfOrChild();
   }
