@@ -71,11 +71,11 @@ context('Traversal', () => {
   //     .nextUntil('#nuts').should('have.length', 3)
   // })
 
-  // it('.not() - remove DOM elements from set of DOM elements', () => {
-  //   // https://on.cypress.io/not
-  //   cy.get('.traversal-disabled .btn')
-  //     .not('[disabled]').should('not.contain', 'Disabled')
-  // })
+  it('.not() - remove DOM elements from set of DOM elements', () => {
+    // https://on.cypress.io/not
+    cy.get('.traversal-disabled .btn')
+      .not('[disabled]').should('not.contain', 'Disabled')
+  })
 
   it('.parent() - get parent DOM element from DOM elements', () => {
     // https://on.cypress.io/parent

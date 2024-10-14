@@ -86,6 +86,11 @@ class Cy {
     return this.selfOrChild();
   }
 
+  not(query: string) {
+    pushQueue({ type: 'locator', selector: [`:scope:not(${query})`], root: this.root });
+    return this.selfOrChild();
+  }
+
   next(query = '*') {
     pushQueue({ type: 'locator', selector: [`:scope + ${query}`], root: this.root });
     return this.selfOrChild();

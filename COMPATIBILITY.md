@@ -28,7 +28,7 @@
 | [.next()](https://docs.cypress.io/api/commands/next)                 |      ✅       |    🕓     |                                      |
 | [.nextAll()](https://docs.cypress.io/api/commands/nextall)           |      🕓      |    🕓     |                                      |
 | [.nextUntil()](https://docs.cypress.io/api/commands/nextuntil)       |      🕓      |    🕓     |                                      |
-| [.not()](https://docs.cypress.io/api/commands/not)                   |      🕓      |    🕓     |                                      |
+| [.not()](https://docs.cypress.io/api/commands/not)                   |      ✅       |    🕓     |                                      |
 | [.parent()](https://docs.cypress.io/api/commands/parent)             |      🕓      |    🕓     |                                      |
 | [.parents()](https://docs.cypress.io/api/commands/parents)           |      🕓      |    🕓     |                                      |
 | [.parentsUntil()](https://docs.cypress.io/api/commands/parentsuntil) |      🕓      |    🕓     |                                      |
