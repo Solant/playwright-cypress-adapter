@@ -52,11 +52,11 @@ context('Traversal', () => {
       .last().should('contain', 'Submit')
   })
 
-  // it('.next() - get next sibling DOM element', () => {
-  //   // https://on.cypress.io/next
-  //   cy.get('.traversal-ul')
-  //     .contains('apples').next().should('contain', 'oranges')
-  // })
+  it('.next() - get next sibling DOM element', () => {
+    // https://on.cypress.io/next
+    cy.get('.traversal-ul')
+      .contains('apples').next().should('contain', 'oranges')
+  })
 
   // it('.nextAll() - get all next sibling DOM elements', () => {
   //   // https://on.cypress.io/nextall

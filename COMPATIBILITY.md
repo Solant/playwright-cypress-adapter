@@ -25,7 +25,7 @@
 | [.its()](https://docs.cypress.io/api/commands/its)                   |      🕓      |    🕓     |                                      |
 | [.last()](https://docs.cypress.io/api/commands/last)                 |      ✅       |    🕓     |                                      |
 | [.location()](https://docs.cypress.io/api/commands/location)         |      🕓      |    🕓     |                                      |
-| [.next()](https://docs.cypress.io/api/commands/next)                 |      🕓      |    🕓     |                                      |
+| [.next()](https://docs.cypress.io/api/commands/next)                 |      ✅       |    🕓     |                                      |
 | [.nextAll()](https://docs.cypress.io/api/commands/nextall)           |      🕓      |    🕓     |                                      |
 | [.nextUntil()](https://docs.cypress.io/api/commands/nextuntil)       |      🕓      |    🕓     |                                      |
 | [.not()](https://docs.cypress.io/api/commands/not)                   |      🕓      |    🕓     |                                      |
