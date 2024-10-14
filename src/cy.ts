@@ -97,6 +97,15 @@ class Cy {
     return this.selfOrChild();
   }
 
+  as(name: string) {
+    if (this.root) {
+      throw new Error('.as() cannot be chained off "cy"');
+    }
+
+    pushQueue({ type: 'alias', name });
+    return this.selfOrChild();
+  }
+
   wait(value: number | string) {
     pushQueue({ type: 'wait', value: value as number });
     return this.selfOrChild();
@@ -120,6 +129,10 @@ class Cy {
   its(index: number) {
     pushQueue({ type: 'locator', selector: [{ modifier: 'nth', value: index }], root: this.root });
     return this.selfOrChild();
+  }
+
+  and(assertionChain: string, value: string | number) {
+    return this.should(assertionChain, value);
   }
 
   should(assertionChain: string, value: string | number) {

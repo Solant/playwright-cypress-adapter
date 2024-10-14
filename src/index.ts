@@ -16,10 +16,11 @@ export const beforeEach = (testBody: any) => {
 
   test.beforeEach(async ({ page }) => {
     let subject: Subject = { type: 'value', value: null };
+    const aliasMap: Record<string, Subject> = {};
     // eslint-disable-next-line no-restricted-syntax
     for (const action of localQueue) {
       // eslint-disable-next-line no-await-in-loop
-      subject = await evaluateAction(page, action, subject);
+      subject = await evaluateAction(page, action, subject, aliasMap);
     }
   });
 };
@@ -32,10 +33,11 @@ export function it(name: string, testBody: any) {
 
   test(name, async ({ page }) => {
     let subject: Subject = { type: 'value', value: null };
+    const aliasMap: Record<string, Subject> = {};
     // eslint-disable-next-line no-restricted-syntax
     for (const action of localQueue) {
       // eslint-disable-next-line no-await-in-loop
-      subject = await evaluateAction(page, action, subject);
+      subject = await evaluateAction(page, action, subject, aliasMap);
     }
   });
 }

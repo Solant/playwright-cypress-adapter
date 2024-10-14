@@ -66,6 +66,9 @@ export type Action = AssertActions | {
 } | {
   type: 'wait',
   value: number,
+} | {
+  type: 'alias',
+  name: string,
 };
 
 let queue: Array<Action> = [];
@@ -94,8 +97,14 @@ export async function evaluateAction(
   page: Page,
   action: Action,
   subject: Subject,
+  aliasMap: Record<string, Subject>,
 ): Promise<Subject> {
   switch (action.type) {
+    case 'alias': {
+      // eslint-disable-next-line no-param-reassign
+      aliasMap[action.name] = subject;
+      return subject;
+    }
     case 'subject': {
       if (action.value instanceof Promise) {
         return { type: 'value', value: await action.value };
@@ -103,6 +112,11 @@ export async function evaluateAction(
       return { type: 'value', value: action.value };
     }
     case 'locator': {
+      // resolve locator as alias
+      if (typeof action.selector[0] === 'string' && action.selector[0].startsWith('@')) {
+        return aliasMap[action.selector[0].substring(1)];
+      }
+
       if (subject.value === null || action.root) {
         return { type: 'locator', value: resolveSelectorItem(page, action.selector[0]) };
       }
