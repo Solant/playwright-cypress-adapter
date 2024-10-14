@@ -27,11 +27,11 @@ context('Traversal', () => {
       .eq(1).should('contain', 'siamese')
   })
 
-  // it('.filter() - get DOM elements that match the selector', () => {
-  //   // https://on.cypress.io/filter
-  //   cy.get('.traversal-nav>li')
-  //     .filter('.active').should('contain', 'About')
-  // })
+  it('.filter() - get DOM elements that match the selector', () => {
+    // https://on.cypress.io/filter
+    cy.get('.traversal-nav>li')
+      .filter('.active').should('contain', 'About')
+  })
 
   it('.find() - get descendant DOM elements of the selector', () => {
     // https://on.cypress.io/find

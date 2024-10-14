@@ -81,6 +81,11 @@ class Cy {
     return this.selfOrChild();
   }
 
+  filter(query: string) {
+    pushQueue({ type: 'locator', selector: [`:scope${query}`], root: this.root });
+    return this.selfOrChild();
+  }
+
   next(query = '*') {
     pushQueue({ type: 'locator', selector: [`:scope + ${query}`], root: this.root });
     return this.selfOrChild();

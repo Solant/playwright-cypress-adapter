@@ -15,7 +15,7 @@
 | [.contains()](https://docs.cypress.io/api/commands/contains)         |      ✅       |    🕓     |                                      |
 | [.document()](https://docs.cypress.io/api/commands/document)         |      🕓      |    🕓     |                                      |
 | [.eq()](https://docs.cypress.io/api/commands/eq)                     |      ✅       |    🕓     |                                      |
-| [.filter()](https://docs.cypress.io/api/commands/filter)             |      🕓      |    🕓     |                                      |
+| [.filter()](https://docs.cypress.io/api/commands/filter)             |      ✅       |    🕓     |                                      |
 | [.find()](https://docs.cypress.io/api/commands/find)                 |      ✅       |    🕓     |                                      |
 | [.first()](https://docs.cypress.io/api/commands/first)               |      ✅       |    🕓     |                                      |
 | [.focused()](https://docs.cypress.io/api/commands/focused)           |      🕓      |    🕓     |                                      |
