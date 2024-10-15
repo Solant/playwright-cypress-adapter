@@ -96,6 +96,11 @@ class Cy {
     return this.selfOrChild();
   }
 
+  prev() {
+    pushQueue({ type: 'locator', selector: ['xpath=/preceding-sibling::*[1]'], root: this.root });
+    return this.selfOrChild();
+  }
+
   first() {
     pushQueue({ type: 'locator', selector: [{ modifier: 'first' }], root: this.root });
     return this.selfOrChild();

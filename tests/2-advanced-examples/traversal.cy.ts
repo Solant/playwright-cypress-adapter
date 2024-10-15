@@ -97,11 +97,11 @@ context('Traversal', () => {
   //     .should('have.length', 2)
   // })
 
-  // it('.prev() - get previous sibling DOM element', () => {
-  //   // https://on.cypress.io/prev
-  //   cy.get('.birds').find('.active')
-  //     .prev().should('contain', 'Lorikeets')
-  // })
+  it('.prev() - get previous sibling DOM element', () => {
+    // https://on.cypress.io/prev
+    cy.get('.birds').find('.active')
+      .prev().should('contain', 'Lorikeets')
+  })
 
   // it('.prevAll() - get all previous sibling DOM elements', () => {
   //   // https://on.cypress.io/prevall
