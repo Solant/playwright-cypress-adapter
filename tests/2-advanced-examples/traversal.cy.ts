@@ -58,12 +58,12 @@ context('Traversal', () => {
       .contains('apples').next().should('contain', 'oranges')
   })
 
-  // it('.nextAll() - get all next sibling DOM elements', () => {
-  //   // https://on.cypress.io/nextall
-  //   cy.get('.traversal-next-all')
-  //     .contains('oranges')
-  //     .nextAll().should('have.length', 3)
-  // })
+  it('.nextAll() - get all next sibling DOM elements', () => {
+    // https://on.cypress.io/nextall
+    cy.get('.traversal-next-all')
+      .contains('oranges')
+      .nextAll().should('have.length', 3)
+  })
 
   // it('.nextUntil() - get next sibling DOM elements until next el', () => {
   //   // https://on.cypress.io/nextuntil
@@ -103,11 +103,11 @@ context('Traversal', () => {
       .prev().should('contain', 'Lorikeets')
   })
 
-  // it('.prevAll() - get all previous sibling DOM elements', () => {
-  //   // https://on.cypress.io/prevall
-  //   cy.get('.fruits-list').find('.third')
-  //     .prevAll().should('have.length', 2)
-  // })
+  it('.prevAll() - get all previous sibling DOM elements', () => {
+    // https://on.cypress.io/prevall
+    cy.get('.fruits-list').find('.third')
+      .prevAll().should('have.length', 2)
+  })
 
   // it('.prevUntil() - get all previous sibling DOM elements until el', () => {
   //   // https://on.cypress.io/prevuntil
@@ -115,9 +115,9 @@ context('Traversal', () => {
   //     .prevUntil('#veggies').should('have.length', 3)
   // })
 
-  // it('.siblings() - get all sibling DOM elements', () => {
-  //   // https://on.cypress.io/siblings
-  //   cy.get('.traversal-pills .active')
-  //     .siblings().should('have.length', 2)
-  // })
+  it('.siblings() - get all sibling DOM elements', () => {
+    // https://on.cypress.io/siblings
+    cy.get('.traversal-pills .active')
+      .siblings().should('have.length', 2)
+  })
 })

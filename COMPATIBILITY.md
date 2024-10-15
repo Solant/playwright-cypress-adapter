@@ -7,41 +7,41 @@
 
 ## Queries
 
-| Command                                                              | Basic syntax | Arguments | Notes                                    |
-|----------------------------------------------------------------------|:------------:|:---------:|------------------------------------------|
-| [.as()](https://docs.cypress.io/api/commands/as)                     |      ⚠️      |    ⚠️     | Supports wrapped values and elements     |
-| [.children()](https://docs.cypress.io/api/commands/children)         |      ✅       |    🕓     |                                          |
-| [.closest()](https://docs.cypress.io/api/commands/closest)           |      🕓      |    🕓     |                                          |
-| [.contains()](https://docs.cypress.io/api/commands/contains)         |      ✅       |    🕓     |                                          |
-| [.document()](https://docs.cypress.io/api/commands/document)         |      🕓      |    🕓     |                                          |
-| [.eq()](https://docs.cypress.io/api/commands/eq)                     |      ✅       |    🕓     |                                          |
-| [.filter()](https://docs.cypress.io/api/commands/filter)             |      ✅       |    🕓     |                                          |
-| [.find()](https://docs.cypress.io/api/commands/find)                 |      ✅       |    🕓     |                                          |
-| [.first()](https://docs.cypress.io/api/commands/first)               |      ✅       |    🕓     |                                          |
-| [.focused()](https://docs.cypress.io/api/commands/focused)           |      🕓      |    🕓     |                                          |
-| [.get()](https://docs.cypress.io/api/commands/get)                   |      ✅       |    🕓     |                                          |
-| [.hash()](https://docs.cypress.io/api/commands/hash)                 |      🕓      |    🕓     |                                          |
-| [.invoke()](https://docs.cypress.io/api/commands/invoke)             |      🕓      |    🕓     |                                          |
-| [.its()](https://docs.cypress.io/api/commands/its)                   |      🕓      |    🕓     |                                          |
-| [.last()](https://docs.cypress.io/api/commands/last)                 |      ✅       |    🕓     |                                          |
-| [.location()](https://docs.cypress.io/api/commands/location)         |      🕓      |    🕓     |                                          |
-| [.next()](https://docs.cypress.io/api/commands/next)                 |      ✅       |    🕓     |                                          |
-| [.nextAll()](https://docs.cypress.io/api/commands/nextall)           |      🕓      |    🕓     |                                          |
-| [.nextUntil()](https://docs.cypress.io/api/commands/nextuntil)       |      🕓      |    🕓     |                                          |
-| [.not()](https://docs.cypress.io/api/commands/not)                   |      ✅       |    🕓     |                                          |
-| [.parent()](https://docs.cypress.io/api/commands/parent)             |      🕓      |    🕓     |                                          |
-| [.parents()](https://docs.cypress.io/api/commands/parents)           |      ✅       |    🕓     |                                          |
-| [.parentsUntil()](https://docs.cypress.io/api/commands/parentsuntil) |      🕓      |    🕓     |                                          |
-| [.prev()](https://docs.cypress.io/api/commands/prev)                 |      ⚠️      |    🕓     | .prev() with selector is not implemented |
-| [.prevAll()](https://docs.cypress.io/api/commands/prevall)           |      🕓      |    🕓     |                                          |
-| [.prevUntil()](https://docs.cypress.io/api/commands/prevuntil)       |      🕓      |    🕓     |                                          |
-| [.readFile()](https://docs.cypress.io/api/commands/readfile)         |      🕓      |    🕓     |                                          |
-| [.root()](https://docs.cypress.io/api/commands/root)                 |      🕓      |    🕓     |                                          |
-| [.shadow()](https://docs.cypress.io/api/commands/shadow)             |      🕓      |    🕓     |                                          |
-| [.siblings()](https://docs.cypress.io/api/commands/siblings)         |      🕓      |    🕓     |                                          |
-| [.title()](https://docs.cypress.io/api/commands/title)               |      ✅       |     -     | -                                        |
-| [.url()](https://docs.cypress.io/api/commands/url)                   |      🕓      |    🕓     |                                          |
-| [.window()](https://docs.cypress.io/api/commands/window)             |      🕓      |    🕓     |                                          |
+| Command                                                              | Basic syntax | Arguments | Notes                                |
+|----------------------------------------------------------------------|:------------:|:---------:|--------------------------------------|
+| [.as()](https://docs.cypress.io/api/commands/as)                     |      ⚠️      |    ⚠️     | Supports wrapped values and elements |
+| [.children()](https://docs.cypress.io/api/commands/children)         |      ✅       |    🕓     |                                      |
+| [.closest()](https://docs.cypress.io/api/commands/closest)           |      🕓      |    🕓     |                                      |
+| [.contains()](https://docs.cypress.io/api/commands/contains)         |      ✅       |    🕓     |                                      |
+| [.document()](https://docs.cypress.io/api/commands/document)         |      🕓      |    🕓     |                                      |
+| [.eq()](https://docs.cypress.io/api/commands/eq)                     |      ✅       |    🕓     |                                      |
+| [.filter()](https://docs.cypress.io/api/commands/filter)             |      ✅       |    🕓     |                                      |
+| [.find()](https://docs.cypress.io/api/commands/find)                 |      ✅       |    🕓     |                                      |
+| [.first()](https://docs.cypress.io/api/commands/first)               |      ✅       |    🕓     |                                      |
+| [.focused()](https://docs.cypress.io/api/commands/focused)           |      🕓      |    🕓     |                                      |
+| [.get()](https://docs.cypress.io/api/commands/get)                   |      ✅       |    🕓     |                                      |
+| [.hash()](https://docs.cypress.io/api/commands/hash)                 |      🕓      |    🕓     |                                      |
+| [.invoke()](https://docs.cypress.io/api/commands/invoke)             |      🕓      |    🕓     |                                      |
+| [.its()](https://docs.cypress.io/api/commands/its)                   |      🕓      |    🕓     |                                      |
+| [.last()](https://docs.cypress.io/api/commands/last)                 |      ✅       |    🕓     |                                      |
+| [.location()](https://docs.cypress.io/api/commands/location)         |      🕓      |    🕓     |                                      |
+| [.next()](https://docs.cypress.io/api/commands/next)                 |      ✅       |    🕓     |                                      |
+| [.nextAll()](https://docs.cypress.io/api/commands/nextall)           |      ⚠️      |    🕓     | selector argument is not implemented |
+| [.nextUntil()](https://docs.cypress.io/api/commands/nextuntil)       |      🕓      |    🕓     |                                      |
+| [.not()](https://docs.cypress.io/api/commands/not)                   |      ✅       |    🕓     |                                      |
+| [.parent()](https://docs.cypress.io/api/commands/parent)             |      🕓      |    🕓     |                                      |
+| [.parents()](https://docs.cypress.io/api/commands/parents)           |      ✅       |    🕓     |                                      |
+| [.parentsUntil()](https://docs.cypress.io/api/commands/parentsuntil) |      🕓      |    🕓     |                                      |
+| [.prev()](https://docs.cypress.io/api/commands/prev)                 |      ⚠️      |    🕓     | selector argument is not implemented |
+| [.prevAll()](https://docs.cypress.io/api/commands/prevall)           |      ⚠️      |    🕓     | selector argument is not implemented |
+| [.prevUntil()](https://docs.cypress.io/api/commands/prevuntil)       |      🕓      |    🕓     |                                      |
+| [.readFile()](https://docs.cypress.io/api/commands/readfile)         |      🕓      |    🕓     |                                      |
+| [.root()](https://docs.cypress.io/api/commands/root)                 |      🕓      |    🕓     |                                      |
+| [.shadow()](https://docs.cypress.io/api/commands/shadow)             |      🕓      |    🕓     |                                      |
+| [.siblings()](https://docs.cypress.io/api/commands/siblings)         |      ⚠️      |    🕓     | selector argument is not implemented |
+| [.title()](https://docs.cypress.io/api/commands/title)               |      ✅       |     -     | -                                    |
+| [.url()](https://docs.cypress.io/api/commands/url)                   |      🕓      |    🕓     |                                      |
+| [.window()](https://docs.cypress.io/api/commands/window)             |      🕓      |    🕓     |                                      |
 
 ## Assertions
 

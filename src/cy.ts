@@ -101,6 +101,25 @@ class Cy {
     return this.selfOrChild();
   }
 
+  prevAll() {
+    pushQueue({ type: 'locator', selector: ['xpath=/preceding-sibling::*'], root: this.root });
+    return this.selfOrChild();
+  }
+
+  nextAll() {
+    pushQueue({ type: 'locator', selector: ['xpath=/following-sibling::*'], root: this.root });
+    return this.selfOrChild();
+  }
+
+  siblings() {
+    pushQueue({
+      type: 'locator',
+      selector: ['xpath=/following-sibling::* | /preceding-sibling::*'],
+      root: this.root,
+    });
+    return this.selfOrChild();
+  }
+
   first() {
     pushQueue({ type: 'locator', selector: [{ modifier: 'first' }], root: this.root });
     return this.selfOrChild();
