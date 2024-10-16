@@ -72,6 +72,54 @@ class Cy {
     return this.selfOrChild();
   }
 
+  children(query = '*') {
+    if (this.root) {
+      throw new Error('.children() cannot be chained off "cy"');
+    }
+
+    pushQueue({ type: 'locator', selector: [`:scope > ${query}`], root: this.root });
+    return this.selfOrChild();
+  }
+
+  filter(query: string) {
+    pushQueue({ type: 'locator', selector: [`:scope${query}`], root: this.root });
+    return this.selfOrChild();
+  }
+
+  not(query: string) {
+    pushQueue({ type: 'locator', selector: [`:scope:not(${query})`], root: this.root });
+    return this.selfOrChild();
+  }
+
+  next(query = '*') {
+    pushQueue({ type: 'locator', selector: [`:scope + ${query}`], root: this.root });
+    return this.selfOrChild();
+  }
+
+  prev() {
+    pushQueue({ type: 'locator', selector: ['xpath=/preceding-sibling::*[1]'], root: this.root });
+    return this.selfOrChild();
+  }
+
+  prevAll() {
+    pushQueue({ type: 'locator', selector: ['xpath=/preceding-sibling::*'], root: this.root });
+    return this.selfOrChild();
+  }
+
+  nextAll() {
+    pushQueue({ type: 'locator', selector: ['xpath=/following-sibling::*'], root: this.root });
+    return this.selfOrChild();
+  }
+
+  siblings() {
+    pushQueue({
+      type: 'locator',
+      selector: ['xpath=/following-sibling::* | /preceding-sibling::*'],
+      root: this.root,
+    });
+    return this.selfOrChild();
+  }
+
   first() {
     pushQueue({ type: 'locator', selector: [{ modifier: 'first' }], root: this.root });
     return this.selfOrChild();
@@ -130,7 +178,7 @@ class Cy {
     return this.selfOrChild();
   }
 
-  its(index: number) {
+  eq(index: number) {
     pushQueue({ type: 'locator', selector: [{ modifier: 'nth', value: index }], root: this.root });
     return this.selfOrChild();
   }
