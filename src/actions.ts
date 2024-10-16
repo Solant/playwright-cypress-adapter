@@ -40,6 +40,15 @@ type AssertActions = {
   name: 'property',
   value: string,
   negation?: boolean,
+} | {
+  type: 'assertion',
+  name: 'empty',
+  negation?: boolean,
+} | {
+  type: 'assertion',
+  name: 'equal',
+  value: unknown,
+  negation?: boolean,
 };
 
 export type Action = AssertActions | {
@@ -73,6 +82,17 @@ export type Action = AssertActions | {
 } | {
   type: 'alias',
   name: string,
+} | {
+  type: 'location',
+  key?: 'hash'
+    | 'host'
+    | 'hostname'
+    | 'href'
+    | 'origin'
+    | 'pathname'
+    | 'port'
+    | 'protocol'
+    | 'search'
 };
 
 let queue: Array<Action> = [];
@@ -188,6 +208,42 @@ export async function evaluateAction(
             expect(subject.value).toHaveProperty(action.value);
           }
           break;
+        case 'empty':
+          if (subject.type === 'value') {
+            if (typeof subject.value === 'string' || Array.isArray(subject.value)) {
+              if (action.negation) {
+                expect(subject.value).not.toHaveLength(0);
+                break;
+              }
+
+              expect(subject.value).toHaveLength(0);
+              break;
+            } else {
+              if (action.negation) {
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                expect(Object.keys(subject.value as any)).not.toHaveLength(0);
+                break;
+              }
+
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              expect(Object.keys(subject.value as any)).not.toHaveLength(0);
+              break;
+            }
+          } else if (action.negation) {
+            await expect(subject.value).not.toBeEmpty();
+            break;
+          } else {
+            await expect(subject.value).toBeEmpty();
+          }
+          break;
+        case 'equal':
+          if (action.negation) {
+            expect(subject.value).not.toBe(action.value);
+            break;
+          }
+
+          expect(subject.value).toBe(action.value);
+          break;
         default:
           throw new Error(`Unknown assertion type "${(action as Record<string, unknown>).name}"`);
       }
@@ -227,6 +283,28 @@ export async function evaluateAction(
     case 'wait':
       await page.waitForTimeout(action.value);
       break;
+    case 'location': {
+      const url = new URL(page.url());
+      if (action.key) {
+        return { type: 'value', value: url[action.key] };
+      }
+      return {
+        type: 'value',
+        value: {
+          hash: url.hash,
+          host: url.host,
+          hostname: url.hostname,
+          href: url.href,
+          origin: url.origin,
+          pathname: url.pathname,
+          port: url.port,
+          protocol: url.protocol,
+          search: url.search,
+          toString() {
+          },
+        },
+      };
+    }
     default:
       throw new Error(`Action type "${(action as Record<string, unknown>).type}" is not implemented`);
   }

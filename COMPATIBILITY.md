@@ -20,11 +20,11 @@
 | [.first()](https://docs.cypress.io/api/commands/first)               |      ✅       |     -     | [3](#3-timeouts)                                                                              |
 | [.focused()](https://docs.cypress.io/api/commands/focused)           |      🕓      |    🕓     |                                                                                               |
 | [.get()](https://docs.cypress.io/api/commands/get)                   |      ✅       |    ⚠️     | `includeShadowDom`, `withinSubject` options are not implemented, [3](#3-timeouts)             |
-| [.hash()](https://docs.cypress.io/api/commands/hash)                 |      🕓      |    🕓     |                                                                                               |
+| [.hash()](https://docs.cypress.io/api/commands/hash)                 |      ✅       |     -     | [3](#3-timeouts)                                                                              |
 | [.invoke()](https://docs.cypress.io/api/commands/invoke)             |      🕓      |    🕓     |                                                                                               |
 | [.its()](https://docs.cypress.io/api/commands/its)                   |      🕓      |    🕓     |                                                                                               |
 | [.last()](https://docs.cypress.io/api/commands/last)                 |      ✅       |     -     | [3](#3-timeouts)                                                                              |
-| [.location()](https://docs.cypress.io/api/commands/location)         |      🕓      |    🕓     |                                                                                               |
+| [.location()](https://docs.cypress.io/api/commands/location)         |      ✅       |     -     | [3](#3-timeouts)                                                                              |
 | [.next()](https://docs.cypress.io/api/commands/next)                 |      ✅       |     -     | [3](#3-timeouts)                                                                              |
 | [.nextAll()](https://docs.cypress.io/api/commands/nextall)           |      ⚠️      |     -     | selector argument is not implemented, [3](#3-timeouts)                                        |
 | [.nextUntil()](https://docs.cypress.io/api/commands/nextuntil)       |      🕓      |    🕓     |                                                                                               |
@@ -40,7 +40,7 @@
 | [.shadow()](https://docs.cypress.io/api/commands/shadow)             |      🕓      |    🕓     |                                                                                               |
 | [.siblings()](https://docs.cypress.io/api/commands/siblings)         |      ⚠️      |    🕓     | selector argument is not implemented, [3](#3-timeouts)                                        |
 | [.title()](https://docs.cypress.io/api/commands/title)               |      ✅       |     -     | [3](#3-timeouts)                                                                              |
-| [.url()](https://docs.cypress.io/api/commands/url)                   |      🕓      |    🕓     |                                                                                               |
+| [.url()](https://docs.cypress.io/api/commands/url)                   |      ✅       |    ⚠️     | `decode` option is not implemented, [3](#3-timeouts)                                          |
 | [.window()](https://docs.cypress.io/api/commands/window)             |      🕓      |    🕓     |                                                                                               |
 
 ## Assertions
@@ -112,7 +112,7 @@
 | [.tick()](https://docs.cypress.io/api/commands/tick)                                      |      🕓      |    🕓     |                                            |
 | [.viewport()](https://docs.cypress.io/api/commands/viewport)                              |      🕓      |    🕓     |                                            |
 | [.visit()](https://docs.cypress.io/api/commands/visit)                                    |      ✅       |    🕓     |                                            |
-| [.wait()](https://docs.cypress.io/api/commands/wait)                                      |      ⚠       |    🕓     | Waiting for aliases is not implemented yet |
+| [.wait()](https://docs.cypress.io/api/commands/wait)                                      |      ⚠️      |    🕓     | Waiting for aliases is not implemented yet |
 | [.within()](https://docs.cypress.io/api/commands/within)                                  |      🕓      |    🕓     |                                            |
 | [.wrap()](https://docs.cypress.io/api/commands/wrap)                                      |      ⚠️      |     -     | Only JS values and promises                |
 | [.writeFile()](https://docs.cypress.io/api/commands/writefile)                            |      🕓      |    🕓     |                                            |
