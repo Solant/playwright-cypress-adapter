@@ -7,41 +7,41 @@
 
 ## Queries
 
-| Command                                                              | Basic syntax | Arguments | Notes                                |
-|----------------------------------------------------------------------|:------------:|:---------:|--------------------------------------|
-| [.as()](https://docs.cypress.io/api/commands/as)                     |      ⚠️      |    ⚠️     | Supports wrapped values and elements |
-| [.children()](https://docs.cypress.io/api/commands/children)         |      ✅       |    🕓     |                                      |
-| [.closest()](https://docs.cypress.io/api/commands/closest)           |      🕓      |    🕓     |                                      |
-| [.contains()](https://docs.cypress.io/api/commands/contains)         |      ✅       |    🕓     |                                      |
-| [.document()](https://docs.cypress.io/api/commands/document)         |      🕓      |    🕓     |                                      |
-| [.eq()](https://docs.cypress.io/api/commands/eq)                     |      ✅       |    🕓     |                                      |
-| [.filter()](https://docs.cypress.io/api/commands/filter)             |      ✅       |    🕓     |                                      |
-| [.find()](https://docs.cypress.io/api/commands/find)                 |      ✅       |    🕓     |                                      |
-| [.first()](https://docs.cypress.io/api/commands/first)               |      ✅       |    🕓     |                                      |
-| [.focused()](https://docs.cypress.io/api/commands/focused)           |      🕓      |    🕓     |                                      |
-| [.get()](https://docs.cypress.io/api/commands/get)                   |      ✅       |    🕓     |                                      |
-| [.hash()](https://docs.cypress.io/api/commands/hash)                 |      🕓      |    🕓     |                                      |
-| [.invoke()](https://docs.cypress.io/api/commands/invoke)             |      🕓      |    🕓     |                                      |
-| [.its()](https://docs.cypress.io/api/commands/its)                   |      🕓      |    🕓     |                                      |
-| [.last()](https://docs.cypress.io/api/commands/last)                 |      ✅       |    🕓     |                                      |
-| [.location()](https://docs.cypress.io/api/commands/location)         |      🕓      |    🕓     |                                      |
-| [.next()](https://docs.cypress.io/api/commands/next)                 |      ✅       |    🕓     |                                      |
-| [.nextAll()](https://docs.cypress.io/api/commands/nextall)           |      ⚠️      |    🕓     | selector argument is not implemented |
-| [.nextUntil()](https://docs.cypress.io/api/commands/nextuntil)       |      🕓      |    🕓     |                                      |
-| [.not()](https://docs.cypress.io/api/commands/not)                   |      ✅       |    🕓     |                                      |
-| [.parent()](https://docs.cypress.io/api/commands/parent)             |      🕓      |    🕓     |                                      |
-| [.parents()](https://docs.cypress.io/api/commands/parents)           |      ✅       |    🕓     |                                      |
-| [.parentsUntil()](https://docs.cypress.io/api/commands/parentsuntil) |      🕓      |    🕓     |                                      |
-| [.prev()](https://docs.cypress.io/api/commands/prev)                 |      ⚠️      |    🕓     | selector argument is not implemented |
-| [.prevAll()](https://docs.cypress.io/api/commands/prevall)           |      ⚠️      |    🕓     | selector argument is not implemented |
-| [.prevUntil()](https://docs.cypress.io/api/commands/prevuntil)       |      🕓      |    🕓     |                                      |
-| [.readFile()](https://docs.cypress.io/api/commands/readfile)         |      🕓      |    🕓     |                                      |
-| [.root()](https://docs.cypress.io/api/commands/root)                 |      🕓      |    🕓     |                                      |
-| [.shadow()](https://docs.cypress.io/api/commands/shadow)             |      🕓      |    🕓     |                                      |
-| [.siblings()](https://docs.cypress.io/api/commands/siblings)         |      ⚠️      |    🕓     | selector argument is not implemented |
-| [.title()](https://docs.cypress.io/api/commands/title)               |      ✅       |     -     | -                                    |
-| [.url()](https://docs.cypress.io/api/commands/url)                   |      🕓      |    🕓     |                                      |
-| [.window()](https://docs.cypress.io/api/commands/window)             |      🕓      |    🕓     |                                      |
+| Command                                                              | Basic syntax | Arguments | Notes                                                                                         |
+|----------------------------------------------------------------------|:------------:|:---------:|-----------------------------------------------------------------------------------------------|
+| [.as()](https://docs.cypress.io/api/commands/as)                     |      ⚠️      |    ⚠️     | Supports wrapped values and elements, `type` option is not implemented                        |
+| [.children()](https://docs.cypress.io/api/commands/children)         |      ✅       |     -     | [3](#3-timeouts)                                                                              |
+| [.closest()](https://docs.cypress.io/api/commands/closest)           |      🕓      |    🕓     |                                                                                               |
+| [.contains()](https://docs.cypress.io/api/commands/contains)         |      ⚠️      |    ⚠️     | selectors are not implemented, `includeShadowDom` option is not implemented, [3](#3-timeouts) |
+| [.document()](https://docs.cypress.io/api/commands/document)         |      🕓      |    🕓     |                                                                                               |
+| [.eq()](https://docs.cypress.io/api/commands/eq)                     |      ✅       |     -     | [3](#3-timeouts)                                                                              |
+| [.filter()](https://docs.cypress.io/api/commands/filter)             |      ✅       |     -     | [3](#3-timeouts)                                                                              |
+| [.find()](https://docs.cypress.io/api/commands/find)                 |      ✅       |    ⚠️     | `includeShadowDom` option is not implemented, [3](#3-timeouts)                                |
+| [.first()](https://docs.cypress.io/api/commands/first)               |      ✅       |     -     | [3](#3-timeouts)                                                                              |
+| [.focused()](https://docs.cypress.io/api/commands/focused)           |      🕓      |    🕓     |                                                                                               |
+| [.get()](https://docs.cypress.io/api/commands/get)                   |      ✅       |    ⚠️     | `includeShadowDom`, `withinSubject` options are not implemented, [3](#3-timeouts)             |
+| [.hash()](https://docs.cypress.io/api/commands/hash)                 |      🕓      |    🕓     |                                                                                               |
+| [.invoke()](https://docs.cypress.io/api/commands/invoke)             |      🕓      |    🕓     |                                                                                               |
+| [.its()](https://docs.cypress.io/api/commands/its)                   |      🕓      |    🕓     |                                                                                               |
+| [.last()](https://docs.cypress.io/api/commands/last)                 |      ✅       |     -     | [3](#3-timeouts)                                                                              |
+| [.location()](https://docs.cypress.io/api/commands/location)         |      🕓      |    🕓     |                                                                                               |
+| [.next()](https://docs.cypress.io/api/commands/next)                 |      ✅       |     -     | [3](#3-timeouts)                                                                              |
+| [.nextAll()](https://docs.cypress.io/api/commands/nextall)           |      ⚠️      |     -     | selector argument is not implemented, [3](#3-timeouts)                                        |
+| [.nextUntil()](https://docs.cypress.io/api/commands/nextuntil)       |      🕓      |    🕓     |                                                                                               |
+| [.not()](https://docs.cypress.io/api/commands/not)                   |      ✅       |     -     | [3](#3-timeouts)                                                                              |
+| [.parent()](https://docs.cypress.io/api/commands/parent)             |      ⚠️      |     -     | selector argument is not implemented, [3](#3-timeouts)                                        |
+| [.parents()](https://docs.cypress.io/api/commands/parents)           |      ✅       |    🕓     |                                                                                               |
+| [.parentsUntil()](https://docs.cypress.io/api/commands/parentsuntil) |      🕓      |    🕓     |                                                                                               |
+| [.prev()](https://docs.cypress.io/api/commands/prev)                 |      ⚠️      |     -     | selector argument is not implemented, [3](#3-timeouts)                                        |                                                                        
+| [.prevAll()](https://docs.cypress.io/api/commands/prevall)           |      ⚠️      |     -     | selector argument is not implemented, [3](#3-timeouts)                                        |                                                                        
+| [.prevUntil()](https://docs.cypress.io/api/commands/prevuntil)       |      🕓      |    🕓     |                                                                                               |
+| [.readFile()](https://docs.cypress.io/api/commands/readfile)         |      🕓      |    🕓     |                                                                                               |
+| [.root()](https://docs.cypress.io/api/commands/root)                 |      🕓      |    🕓     |                                                                                               |
+| [.shadow()](https://docs.cypress.io/api/commands/shadow)             |      🕓      |    🕓     |                                                                                               |
+| [.siblings()](https://docs.cypress.io/api/commands/siblings)         |      ⚠️      |    🕓     | selector argument is not implemented, [3](#3-timeouts)                                        |
+| [.title()](https://docs.cypress.io/api/commands/title)               |      ✅       |     -     | [3](#3-timeouts)                                                                              |
+| [.url()](https://docs.cypress.io/api/commands/url)                   |      🕓      |    🕓     |                                                                                               |
+| [.window()](https://docs.cypress.io/api/commands/window)             |      🕓      |    🕓     |                                                                                               |
 
 ## Assertions
 
@@ -161,3 +161,14 @@ list (the whole chai BDD list).
 
 `expect()` assertions are not supported because their chained API is trickier to reimplement and as they rely too much
 on synchronous browser APIs.
+
+### 3. Timeouts
+
+Playwright doesn't provide timeout option for some methods (e.g. `page.locator()`), and instead uses
+[global config](https://playwright.dev/docs/test-timeouts#advanced-low-level-timeouts) for this cause. By default,
+playwright timeouts are much generous than cypress ones, so in some cases `timeout` option is ignored.
+
+### 4. Command log
+
+Cypress allows test cases to specify which commands and actions can be hidden from command log. Playwright has no
+comparable functionality, thus `log` option is ignored.
