@@ -1,6 +1,10 @@
 import { expect, Locator, Page } from '@playwright/test';
 
-export type SpecialSelector = { modifier: 'first' } | { modifier: 'last' } | { modifier: 'contains', value: string } | {
+export type SpecialSelector = { modifier: 'first' } | { modifier: 'last' } | {
+  modifier: 'contains',
+  value: string,
+  exact: boolean
+} | {
   modifier: 'nth',
   value: number
 };
@@ -79,7 +83,7 @@ function resolveSelectorItem(parent: Locator | Page, selector: Selector[number])
   }
   switch (selector.modifier) {
     case 'contains':
-      return parent.getByText(selector.value, { exact: true });
+      return parent.getByText(selector.value, { exact: selector.exact });
     case 'first':
       return (parent as Locator).first();
     case 'last':

@@ -82,8 +82,12 @@ class Cy {
     return this.selfOrChild();
   }
 
-  contains(value: string) {
-    pushQueue({ type: 'locator', selector: [{ modifier: 'contains', value }], root: this.root });
+  contains(value: string, options?: { matchCase?: boolean }) {
+    pushQueue({
+      type: 'locator',
+      selector: [{ modifier: 'contains', value, exact: options?.matchCase ?? true }],
+      root: this.root,
+    });
     return this.selfOrChild();
   }
 
