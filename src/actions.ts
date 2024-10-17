@@ -213,6 +213,7 @@ export async function evaluateAction(
             } else {
               expect(subject.value).toContain(action.value);
             }
+            break;
           }
           if (subject.type === 'locator') {
             if (action.negation) {
