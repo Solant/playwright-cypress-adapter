@@ -163,6 +163,19 @@ class Cy {
     return this.selfOrChild();
   }
 
+  hash() {
+    return this.location('hash');
+  }
+
+  url() {
+    return this.location('href');
+  }
+
+  location(key?: 'search' | 'hash' | 'host' | 'hostname' | 'href' | 'origin' | 'pathname' | 'port' | 'protocol') {
+    pushQueue({ type: 'location', key });
+    return this.selfOrChild();
+  }
+
   parent() {
     pushQueue({ type: 'locator', selector: ['xpath=..'], root: this.root });
     return this.selfOrChild();
@@ -241,6 +254,23 @@ class Cy {
           type: 'assertion',
           name: 'property',
           value: value as string,
+          negation,
+        });
+        break;
+      case 'empty':
+        pushQueue({
+          type: 'assertion',
+          name: 'empty',
+          negation,
+        });
+        break;
+      case 'equal':
+      case 'equals':
+      case 'eq':
+        pushQueue({
+          type: 'assertion',
+          name: 'equal',
+          value,
           negation,
         });
         break;
