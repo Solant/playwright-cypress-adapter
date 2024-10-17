@@ -1,6 +1,30 @@
 # Changelog
 
 
+## v0.1.4
+
+[compare changes](https://github.com/Solant/playwright-cypress-adapter/compare/v0.1.3...v0.1.4)
+
+### 🚀 Enhancements
+
+- Implement as command ([37a5c12](https://github.com/Solant/playwright-cypress-adapter/commit/37a5c12))
+- Implement traversal actions ([#3](https://github.com/Solant/playwright-cypress-adapter/pull/3))
+- Implement matchCase option for contains query ([330aaee](https://github.com/Solant/playwright-cypress-adapter/commit/330aaee))
+- Implement location, url, hash queries ([#4](https://github.com/Solant/playwright-cypress-adapter/pull/4))
+- Add new subject type, implement window and document query ([be41e60](https://github.com/Solant/playwright-cypress-adapter/commit/be41e60))
+
+### 🩹 Fixes
+
+- Add missing break statement ([7954238](https://github.com/Solant/playwright-cypress-adapter/commit/7954238))
+
+### 🏡 Chore
+
+- Update COMPATIBILITY.md ([21463e2](https://github.com/Solant/playwright-cypress-adapter/commit/21463e2))
+
+### ❤️ Contributors
+
+- Solant <runner62v6@gmail.com>
+
 ## v0.1.3
 
 [compare changes](https://github.com/Solant/playwright-cypress-adapter/compare/v0.1.2...v0.1.3)
