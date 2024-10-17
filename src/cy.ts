@@ -163,6 +163,16 @@ class Cy {
     return this.selfOrChild();
   }
 
+  window() {
+    pushQueue({ type: 'handle', global: 'window' });
+    return this.selfOrChild();
+  }
+
+  document() {
+    pushQueue({ type: 'handle', global: 'document' });
+    return this.selfOrChild();
+  }
+
   hash() {
     return this.location('hash');
   }

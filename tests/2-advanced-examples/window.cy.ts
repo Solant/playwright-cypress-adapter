@@ -1,4 +1,5 @@
 import { setup } from '../../src';
+
 setup();
 
 context('Window', () => {
@@ -6,12 +7,10 @@ context('Window', () => {
     cy.visit('https://example.cypress.io/commands/window')
   })
 
-  /*
   it('cy.window() - get the global window object', () => {
     // https://on.cypress.io/window
     cy.window().should('have.property', 'top')
   })
-  */
 
   /*
   it('cy.document() - get the document object', () => {

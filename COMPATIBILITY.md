@@ -13,7 +13,7 @@
 | [.children()](https://docs.cypress.io/api/commands/children)         |      ✅       |     -     | [3](#3-timeouts)                                                                              |
 | [.closest()](https://docs.cypress.io/api/commands/closest)           |      🕓      |    🕓     |                                                                                               |
 | [.contains()](https://docs.cypress.io/api/commands/contains)         |      ⚠️      |    ⚠️     | selectors are not implemented, `includeShadowDom` option is not implemented, [3](#3-timeouts) |
-| [.document()](https://docs.cypress.io/api/commands/document)         |      🕓      |    🕓     |                                                                                               |
+| [.document()](https://docs.cypress.io/api/commands/document)         |      ✅       |     -     | [3](#3-timeouts)                                                                              |
 | [.eq()](https://docs.cypress.io/api/commands/eq)                     |      ✅       |     -     | [3](#3-timeouts)                                                                              |
 | [.filter()](https://docs.cypress.io/api/commands/filter)             |      ✅       |     -     | [3](#3-timeouts)                                                                              |
 | [.find()](https://docs.cypress.io/api/commands/find)                 |      ✅       |    ⚠️     | `includeShadowDom` option is not implemented, [3](#3-timeouts)                                |
@@ -41,7 +41,7 @@
 | [.siblings()](https://docs.cypress.io/api/commands/siblings)         |      ⚠️      |    🕓     | selector argument is not implemented, [3](#3-timeouts)                                        |
 | [.title()](https://docs.cypress.io/api/commands/title)               |      ✅       |     -     | [3](#3-timeouts)                                                                              |
 | [.url()](https://docs.cypress.io/api/commands/url)                   |      ✅       |    ⚠️     | `decode` option is not implemented, [3](#3-timeouts)                                          |
-| [.window()](https://docs.cypress.io/api/commands/window)             |      🕓      |    🕓     |                                                                                               |
+| [.window()](https://docs.cypress.io/api/commands/window)             |      ✅       |     -     | [3](#3-timeouts)                                                                              |
 
 ## Assertions
 
@@ -156,7 +156,7 @@ the target element. Thus, in some cases, playwright action with `force` flag ena
 
 ### 2. Assertions
 
-`.should()` assertions are supported (some of them might be missing), but there are just too many of them for this
+`.should()` assertions are supported (some of them are missing), but there are just too many of them for this
 list (the whole chai BDD list).
 
 `expect()` assertions are not supported because their chained API is trickier to reimplement and as they rely too much

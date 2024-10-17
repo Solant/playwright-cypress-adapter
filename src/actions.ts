@@ -1,4 +1,6 @@
-import { expect, Locator, Page } from '@playwright/test';
+import {
+  expect, JSHandle, Locator, Page,
+} from '@playwright/test';
 
 export type SpecialSelector = { modifier: 'first' } | { modifier: 'last' } | {
   modifier: 'contains',
@@ -93,6 +95,9 @@ export type Action = AssertActions | {
     | 'port'
     | 'protocol'
     | 'search'
+} | {
+  type: 'handle',
+  global: 'window' | 'document',
 };
 
 let queue: Array<Action> = [];
@@ -115,7 +120,10 @@ function resolveSelectorItem(parent: Locator | Page, selector: Selector[number])
   }
 }
 
-export type Subject = { type: 'locator', value: Locator } | { type: 'value', value: unknown };
+export type Subject =
+  { type: 'locator', value: Locator }
+  | { type: 'value', value: unknown }
+  | { type: 'handle', value: JSHandle };
 
 export async function evaluateAction(
   page: Page,
@@ -124,6 +132,16 @@ export async function evaluateAction(
   aliasMap: Record<string, Subject>,
 ): Promise<Subject> {
   switch (action.type) {
+    case 'handle': {
+      switch (action.global) {
+        case 'window':
+          return { type: 'handle', value: await page.evaluateHandle(() => window) };
+        case 'document':
+          return { type: 'handle', value: await page.evaluateHandle(() => window.document) };
+        default:
+          throw new Error('Unknown handle value');
+      }
+    }
     case 'alias': {
       // eslint-disable-next-line no-param-reassign
       aliasMap[action.name] = subject;
@@ -195,13 +213,30 @@ export async function evaluateAction(
             } else {
               expect(subject.value).toContain(action.value);
             }
-          } else if (action.negation) {
-            await expect(subject.value).not.toContainText(action.value);
-          } else {
-            await expect(subject.value).toContainText(action.value);
           }
-          break;
+          if (subject.type === 'locator') {
+            if (action.negation) {
+              await expect(subject.value).not.toContainText(action.value);
+            } else {
+              await expect(subject.value).toContainText(action.value);
+            }
+            break;
+          }
+          throw new Error('Handle subject is not implemented');
         case 'property':
+          if (subject.type === 'handle') {
+            const result = await page.evaluate(
+              (ctx) => Object.prototype.hasOwnProperty.call(ctx.subject, ctx.property),
+              { subject: subject.value, property: action.value },
+            );
+            if (action.negation) {
+              expect(result).not.toBe(true);
+            } else {
+              expect(result).toBe(true);
+            }
+            break;
+          }
+
           if (action.negation) {
             expect(subject.value).not.toHaveProperty(action.value);
           } else {
@@ -229,13 +264,17 @@ export async function evaluateAction(
               expect(Object.keys(subject.value as any)).not.toHaveLength(0);
               break;
             }
-          } else if (action.negation) {
-            await expect(subject.value).not.toBeEmpty();
-            break;
-          } else {
-            await expect(subject.value).toBeEmpty();
           }
-          break;
+          if (subject.type === 'locator') {
+            if (action.negation) {
+              await expect(subject.value).not.toBeEmpty();
+              break;
+            } else {
+              await expect(subject.value).toBeEmpty();
+            }
+            break;
+          }
+          throw new Error('Handle subject is not implemented');
         case 'equal':
           if (action.negation) {
             expect(subject.value).not.toBe(action.value);
