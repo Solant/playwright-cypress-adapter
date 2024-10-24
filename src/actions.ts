@@ -55,6 +55,11 @@ type AssertActions = {
   type: 'assertion',
   name: 'dom.checked',
   negation?: boolean,
+} | {
+  type: 'assertion',
+  name: 'dom.value',
+  value: string,
+  negation?: boolean,
 };
 
 export type Action = AssertActions | {
@@ -67,6 +72,8 @@ export type Action = AssertActions | {
 } | {
   type: 'fill',
   value: string,
+} | {
+  type: 'clear',
 } | {
   type: 'check'
 } | {
@@ -225,6 +232,16 @@ export async function evaluateAction(
             await expect(subject.value).toBeVisible();
           }
           break;
+        case 'dom.value':
+          if (subject.type !== 'locator') {
+            throw new Error(`assertion expected locator, got ${subject.type} ${subject.value}`);
+          }
+          if (action.negation) {
+            await expect(subject.value).not.toHaveValue(action.value);
+          } else {
+            await expect(subject.value).toHaveValue(action.value);
+          }
+          break;
         case 'include':
           if (subject.type === 'value') {
             if (action.negation) {
@@ -319,9 +336,15 @@ export async function evaluateAction(
       break;
     case 'fill':
       if (subject.type !== 'locator') {
-        throw new Error(`count assertion expected locator, got ${subject.type} ${subject.value}`);
+        throw new Error(`expected locator, got ${subject.type} ${subject.value}`);
       }
       await subject.value.fill(action.value);
+      break;
+    case 'clear':
+      if (subject.type !== 'locator') {
+        throw new Error(`expected locator, got ${subject.type} ${subject.value}`);
+      }
+      await subject.value.clear();
       break;
     case 'keyboard':
       switch (action.action) {

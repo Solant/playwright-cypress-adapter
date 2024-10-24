@@ -50,7 +50,7 @@
 | Command                                                                  | Basic syntax | Arguments | Notes                                        |
 |--------------------------------------------------------------------------|:------------:|:---------:|----------------------------------------------|
 | [.check()](https://docs.cypress.io/api/commands/check)                   |      ⚠️      |    🕓     | string and array argument is not implemented |
-| [.clear()](https://docs.cypress.io/api/commands/clear)                   |      🕓      |    🕓     |                                              |
+| [.clear()](https://docs.cypress.io/api/commands/clear)                   |      ✅       |     -     |                                              |
 | [.click()](https://docs.cypress.io/api/commands/click)                   |      ✅       |    🕓     | [1](#1-forcing-interaction)                  | 
 | [.dblclick()](https://docs.cypress.io/api/commands/dblclick)             |      🕓      |    🕓     |                                              |
 | [.rightclick()](https://docs.cypress.io/api/commands/rightclick)         |      🕓      |    🕓     |                                              |

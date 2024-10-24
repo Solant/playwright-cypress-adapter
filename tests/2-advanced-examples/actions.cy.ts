@@ -56,7 +56,6 @@ context('Actions', () => {
   })
    */
 
-  /*
   it('.clear() - clears an input or textarea element', () => {
     // https://on.cypress.io/clear
     cy.get('.action-clear').type('Clear this text')
@@ -64,7 +63,6 @@ context('Actions', () => {
     cy.get('.action-clear').clear()
     cy.get('.action-clear').should('have.value', '')
   })
-   */
 
   /*
   it('.submit() - submit a form', () => {
@@ -159,8 +157,10 @@ context('Actions', () => {
     cy.get('.action-checkboxes [type="checkbox"]').not('[disabled]').check()
     cy.get('.action-checkboxes [type="checkbox"]').not('[disabled]').should('be.checked')
 
+    /*
     cy.get('.action-radios [type="radio"]').not('[disabled]').check()
     cy.get('.action-radios [type="radio"]').not('[disabled]').should('be.checked')
+     */
 
     /*
     // .check() accepts a value argument

@@ -291,6 +291,14 @@ class Cy {
           negation,
         });
         break;
+      case 'value':
+        pushQueue({
+          type: 'assertion',
+          name: 'dom.value',
+          value: value.toString(),
+          negation,
+        });
+        break;
       default: {
         throw new Error(`Unknown assertion "${assertion}"`);
       }
@@ -317,6 +325,14 @@ class Cy {
       });
     }
 
+    return this.selfOrChild();
+  }
+
+  clear() {
+    if (this.root) {
+      throw new Error('.clear() cannot be chained off "cy"');
+    }
+    pushQueue({ type: 'clear' });
     return this.selfOrChild();
   }
 }
