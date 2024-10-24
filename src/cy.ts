@@ -284,6 +284,13 @@ class Cy {
           negation,
         });
         break;
+      case 'checked':
+        pushQueue({
+          type: 'assertion',
+          name: 'dom.checked',
+          negation,
+        });
+        break;
       default: {
         throw new Error(`Unknown assertion "${assertion}"`);
       }

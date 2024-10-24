@@ -1,4 +1,6 @@
-/// <reference types="cypress" />
+import { setup } from '../../src';
+
+setup();
 
 context('Actions', () => {
   beforeEach(() => {
@@ -7,6 +9,7 @@ context('Actions', () => {
 
   // https://on.cypress.io/interacting-with-elements
 
+  /*
   it('.type() - type into a DOM element', () => {
     // https://on.cypress.io/type
     cy.get('.action-email').type('fake@email.com')
@@ -32,14 +35,18 @@ context('Actions', () => {
       .type('disabled error checking', { force: true })
     cy.get('.action-disabled').should('have.value', 'disabled error checking')
   })
+  */
 
+  /*
   it('.focus() - focus on a DOM element', () => {
     // https://on.cypress.io/focus
     cy.get('.action-focus').focus()
     cy.get('.action-focus').should('have.class', 'focus')
       .prev().should('have.attr', 'style', 'color: orange;')
   })
+   */
 
+  /*
   it('.blur() - blur off a DOM element', () => {
     // https://on.cypress.io/blur
     cy.get('.action-blur').type('About to blur')
@@ -47,7 +54,9 @@ context('Actions', () => {
     cy.get('.action-blur').should('have.class', 'error')
       .prev().should('have.attr', 'style', 'color: red;')
   })
+   */
 
+  /*
   it('.clear() - clears an input or textarea element', () => {
     // https://on.cypress.io/clear
     cy.get('.action-clear').type('Clear this text')
@@ -55,7 +64,9 @@ context('Actions', () => {
     cy.get('.action-clear').clear()
     cy.get('.action-clear').should('have.value', '')
   })
+   */
 
+  /*
   it('.submit() - submit a form', () => {
     // https://on.cypress.io/submit
     cy.get('.action-form')
@@ -64,7 +75,9 @@ context('Actions', () => {
     cy.get('.action-form').submit()
     cy.get('.action-form').next().should('contain', 'Your form has been submitted!')
   })
+   */
 
+  /*
   it('.click() - click on a DOM element', () => {
     // https://on.cypress.io/click
     cy.get('.action-btn').click()
@@ -112,7 +125,9 @@ context('Actions', () => {
     // Ignore error checking prior to clicking
     cy.get('.action-opacity>.btn').click({ force: true })
   })
+   */
 
+  /*
   it('.dblclick() - double click on a DOM element', () => {
     // https://on.cypress.io/dblclick
 
@@ -122,7 +137,9 @@ context('Actions', () => {
     cy.get('.action-div').should('not.be.visible')
     cy.get('.action-input-hidden').should('be.visible')
   })
+   */
 
+  /*
   it('.rightclick() - right click on a DOM element', () => {
     // https://on.cypress.io/rightclick
 
@@ -132,6 +149,7 @@ context('Actions', () => {
     cy.get('.rightclick-action-div').should('not.be.visible')
     cy.get('.rightclick-action-input-hidden').should('be.visible')
   })
+   */
 
   it('.check() - check a checkbox or radio element', () => {
     // https://on.cypress.io/check
@@ -144,6 +162,7 @@ context('Actions', () => {
     cy.get('.action-radios [type="radio"]').not('[disabled]').check()
     cy.get('.action-radios [type="radio"]').not('[disabled]').should('be.checked')
 
+    /*
     // .check() accepts a value argument
     cy.get('.action-radios [type="radio"]').check('radio1')
     cy.get('.action-radios [type="radio"]').should('be.checked')
@@ -158,8 +177,10 @@ context('Actions', () => {
 
     cy.get('.action-radios [type="radio"]').check('radio3', { force: true })
     cy.get('.action-radios [type="radio"]').should('be.checked')
+     */
   })
 
+  /*
   it('.uncheck() - uncheck a checkbox element', () => {
     // https://on.cypress.io/uncheck
 
@@ -194,7 +215,9 @@ context('Actions', () => {
     cy.get('.action-check [disabled]').uncheck({ force: true })
     cy.get('.action-check [disabled]').should('not.be.checked')
   })
+   */
 
+  /*
   it('.select() - select an option in a <select> element', () => {
     // https://on.cypress.io/select
 
@@ -231,7 +254,9 @@ context('Actions', () => {
     cy.get('.action-select-multiple')
       .invoke('val').should('include', 'fr-oranges')
   })
+   */
 
+  /*
   it('.scrollIntoView() - scroll an element into view', () => {
     // https://on.cypress.io/scrollintoview
 
@@ -263,7 +288,9 @@ context('Actions', () => {
     cy.get('#scroll-both button')
       .should('be.visible')
   })
+   */
 
+  /*
   it('.trigger() - trigger an event on a DOM element', () => {
     // https://on.cypress.io/trigger
 
@@ -281,7 +308,9 @@ context('Actions', () => {
       .get('input[type=range]').siblings('p')
       .should('have.text', '25')
   })
+   */
 
+  /*
   it('cy.scrollTo() - scroll the window or element to a position', () => {
     // https://on.cypress.io/scrollto
 
@@ -318,4 +347,5 @@ context('Actions', () => {
     // control the duration of the scroll (in ms)
     cy.get('#scrollable-both').scrollTo('center', { duration: 2000 })
   })
+   */
 })

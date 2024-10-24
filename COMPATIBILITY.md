@@ -47,20 +47,20 @@
 
 ## Actions
 
-| Command                                                                  | Basic syntax | Arguments | Notes                       |
-|--------------------------------------------------------------------------|:------------:|:---------:|-----------------------------|
-| [.check()](https://docs.cypress.io/api/commands/check)                   |      ✅       |    🕓     |                             |
-| [.clear()](https://docs.cypress.io/api/commands/clear)                   |      🕓      |    🕓     |                             |
-| [.click()](https://docs.cypress.io/api/commands/click)                   |      ✅       |    🕓     | [1](#1-forcing-interaction) | 
-| [.dblclick()](https://docs.cypress.io/api/commands/dblclick)             |      🕓      |    🕓     |                             |
-| [.rightclick()](https://docs.cypress.io/api/commands/rightclick)         |      🕓      |    🕓     |                             |
-| [.scrollIntoView()](https://docs.cypress.io/api/commands/scrollIntoView) |      🕓      |    🕓     |                             |
-| [.scrollTo()](https://docs.cypress.io/api/commands/scrollTo)             |      🕓      |    🕓     |                             |
-| [.select()](https://docs.cypress.io/api/commands/select)                 |      🕓      |    🕓     |                             |
-| [.selectFile()](https://docs.cypress.io/api/commands/selectFile)         |      🕓      |    🕓     |                             |
-| [.trigger()](https://docs.cypress.io/api/commands/trigger)               |      🕓      |    🕓     |                             |
-| [.type()](https://docs.cypress.io/api/commands/type)                     |     ️ ✅      |    🕓     | [1](#1-forcing-interaction) |
-| [.uncheck()](https://docs.cypress.io/api/commands/uncheck)               |      🕓      |    🕓     |                             |
+| Command                                                                  | Basic syntax | Arguments | Notes                                        |
+|--------------------------------------------------------------------------|:------------:|:---------:|----------------------------------------------|
+| [.check()](https://docs.cypress.io/api/commands/check)                   |      ⚠️      |    🕓     | string and array argument is not implemented |
+| [.clear()](https://docs.cypress.io/api/commands/clear)                   |      🕓      |    🕓     |                                              |
+| [.click()](https://docs.cypress.io/api/commands/click)                   |      ✅       |    🕓     | [1](#1-forcing-interaction)                  | 
+| [.dblclick()](https://docs.cypress.io/api/commands/dblclick)             |      🕓      |    🕓     |                                              |
+| [.rightclick()](https://docs.cypress.io/api/commands/rightclick)         |      🕓      |    🕓     |                                              |
+| [.scrollIntoView()](https://docs.cypress.io/api/commands/scrollIntoView) |      🕓      |    🕓     |                                              |
+| [.scrollTo()](https://docs.cypress.io/api/commands/scrollTo)             |      🕓      |    🕓     |                                              |
+| [.select()](https://docs.cypress.io/api/commands/select)                 |      🕓      |    🕓     |                                              |
+| [.selectFile()](https://docs.cypress.io/api/commands/selectFile)         |      🕓      |    🕓     |                                              |
+| [.trigger()](https://docs.cypress.io/api/commands/trigger)               |      🕓      |    🕓     |                                              |
+| [.type()](https://docs.cypress.io/api/commands/type)                     |     ️ ✅      |    🕓     | [1](#1-forcing-interaction)                  |
+| [.uncheck()](https://docs.cypress.io/api/commands/uncheck)               |      🕓      |    🕓     |                                              |
 
 ## Assertions
 

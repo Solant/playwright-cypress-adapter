@@ -51,6 +51,10 @@ type AssertActions = {
   name: 'equal',
   value: unknown,
   negation?: boolean,
+} | {
+  type: 'assertion',
+  name: 'dom.checked',
+  negation?: boolean,
 };
 
 export type Action = AssertActions | {
@@ -101,6 +105,21 @@ export type Action = AssertActions | {
 };
 
 let queue: Array<Action> = [];
+
+/**
+ * Apply callback ignoring playwright "strict mode"
+ */
+async function usingLooseMode(elements: Locator, cb: (element: Locator) => Promise<void>) {
+  const count = await elements.count();
+  if (count > 1) {
+    for (let index = 0; index < count; index += 1) {
+      // eslint-disable-next-line no-await-in-loop
+      await cb(elements.nth(index));
+    }
+  } else {
+    await cb(elements);
+  }
+}
 
 function resolveSelectorItem(parent: Locator | Page, selector: Selector[number]): Locator {
   if (typeof selector === 'string') {
@@ -284,6 +303,16 @@ export async function evaluateAction(
 
           expect(subject.value).toBe(action.value);
           break;
+        case 'dom.checked':
+          if (subject.type !== 'locator') {
+            throw new Error('Locator expected');
+          }
+          if (action.negation) {
+            await usingLooseMode(subject.value, (el) => expect(el).not.toBeChecked());
+          } else {
+            await usingLooseMode(subject.value, (el) => expect(el).toBeChecked());
+          }
+          break;
         default:
           throw new Error(`Unknown assertion type "${(action as Record<string, unknown>).name}"`);
       }
@@ -303,12 +332,13 @@ export async function evaluateAction(
           throw new Error(`Keyboard action "${action.action}" is not implemented`);
       }
       break;
-    case 'check':
+    case 'check': {
       if (subject.type !== 'locator') {
         throw new Error(`count assertion expected locator, got ${subject.type} ${subject.value}`);
       }
-      await subject.value.check();
+      await usingLooseMode(subject.value, (el) => el.check());
       break;
+    }
     case 'click':
       if (subject.type !== 'locator') {
         throw new Error(`count assertion expected locator, got ${subject.type} ${subject.value}`);
