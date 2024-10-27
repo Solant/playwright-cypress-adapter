@@ -75,7 +75,6 @@ context('Actions', () => {
   })
    */
 
-  /*
   it('.click() - click on a DOM element', () => {
     // https://on.cypress.io/click
     cy.get('.action-btn').click()
@@ -123,9 +122,7 @@ context('Actions', () => {
     // Ignore error checking prior to clicking
     cy.get('.action-opacity>.btn').click({ force: true })
   })
-   */
 
-  /*
   it('.dblclick() - double click on a DOM element', () => {
     // https://on.cypress.io/dblclick
 
@@ -135,9 +132,7 @@ context('Actions', () => {
     cy.get('.action-div').should('not.be.visible')
     cy.get('.action-input-hidden').should('be.visible')
   })
-   */
 
-  /*
   it('.rightclick() - right click on a DOM element', () => {
     // https://on.cypress.io/rightclick
 
@@ -147,7 +142,6 @@ context('Actions', () => {
     cy.get('.rightclick-action-div').should('not.be.visible')
     cy.get('.rightclick-action-input-hidden').should('be.visible')
   })
-   */
 
   it('.check() - check a checkbox or radio element', () => {
     // https://on.cypress.io/check

@@ -62,6 +62,19 @@ type AssertActions = {
   negation?: boolean,
 };
 
+export type ClickActionPosition =
+  'topLeft'
+  | 'top'
+  | 'topRight'
+  | 'left'
+  | 'center'
+  | 'right'
+  | 'bottomLeft'
+  | 'bottom'
+  | 'bottomRight';
+
+export type ClickActionModifiers = 'Control' | 'Alt' | 'Shift' | 'Meta';
+
 export type Action = AssertActions | {
   type: 'navigate',
   url: string
@@ -78,6 +91,15 @@ export type Action = AssertActions | {
   type: 'check'
 } | {
   type: 'click',
+  position?: ClickActionPosition | {
+    x: number,
+    y: number
+  },
+  force: boolean,
+  modifiers: Array<ClickActionModifiers>,
+  button: 'left' | 'right',
+  double: boolean,
+  multiple?: boolean,
 } | {
   type: 'keyboard',
   action: 'press',
@@ -362,12 +384,26 @@ export async function evaluateAction(
       await usingLooseMode(subject.value, (el) => el.check());
       break;
     }
-    case 'click':
+    case 'click': {
       if (subject.type !== 'locator') {
-        throw new Error(`count assertion expected locator, got ${subject.type} ${subject.value}`);
+        throw new Error(`"click" action expected locator, got ${subject.type} ${subject.value}`);
       }
-      await subject.value.click();
+
+      const options = {
+        force: action.force,
+        button: action.button,
+        position: (typeof action.position === 'object') ? action.position : undefined,
+        modifiers: action.modifiers,
+      };
+
+      if (action.multiple) {
+        await usingLooseMode(subject.value, (el) => el.click(options));
+      } else {
+        await subject.value.click(options);
+      }
+
       break;
+    }
     case 'title':
       return { type: 'value', value: await page.title() };
     case 'pause':
