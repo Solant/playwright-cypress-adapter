@@ -181,6 +181,11 @@ class Cy {
     return this.selfOrChild();
   }
 
+  scrollIntoView() {
+    pushQueue({ type: 'scrollIntoView' });
+    return this.selfOrChild();
+  }
+
   // TODO: refactor
   rightclick(...args: Array<string | number | object | undefined>) {
     const [x, y] = args.filter((arg) => typeof arg === 'number');

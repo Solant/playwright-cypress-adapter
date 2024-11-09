@@ -54,7 +54,7 @@
 | [.click()](https://docs.cypress.io/api/commands/click)                   |      ✅       |    ⚠️     | [1](#1-forcing-interaction), position argument accepts only x, y coordinates | 
 | [.dblclick()](https://docs.cypress.io/api/commands/dblclick)             |      ✅       |    ⚠️     | [1](#1-forcing-interaction), position argument accepts only x, y coordinates |
 | [.rightclick()](https://docs.cypress.io/api/commands/rightclick)         |      ✅       |    ⚠️     | [1](#1-forcing-interaction), position argument accepts only x, y coordinates |
-| [.scrollIntoView()](https://docs.cypress.io/api/commands/scrollIntoView) |      🕓      |    🕓     |                                                                              |
+| [.scrollIntoView()](https://docs.cypress.io/api/commands/scrollIntoView) |      ✅       |    🕓     |                                                                              |
 | [.scrollTo()](https://docs.cypress.io/api/commands/scrollTo)             |      🕓      |    🕓     |                                                                              |
 | [.select()](https://docs.cypress.io/api/commands/select)                 |      🕓      |    🕓     |                                                                              |
 | [.selectFile()](https://docs.cypress.io/api/commands/selectFile)         |      🕓      |    🕓     |                                                                              |
@@ -172,3 +172,8 @@ playwright timeouts are much generous than cypress ones, so in some cases `timeo
 
 Cypress allows test cases to specify which commands and actions can be hidden from command log. Playwright has no
 comparable functionality, thus `log` option is ignored.
+
+### 5. Visibility check
+
+Cypress and playwright visibility checks are different. Cypress additionally checks if the element is inside scrollable
+or hidden overflow part of the parent element.

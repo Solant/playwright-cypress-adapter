@@ -135,6 +135,8 @@ export type Action = AssertActions | {
 } | {
   type: 'handle',
   global: 'window' | 'document',
+} | {
+  type: 'scrollIntoView'
 };
 
 let queue: Array<Action> = [];
@@ -433,6 +435,10 @@ export async function evaluateAction(
       break;
     case 'wait':
       await page.waitForTimeout(action.value);
+      break;
+    case 'scrollIntoView':
+      assertLocator(subject);
+      await subject.value.scrollIntoViewIfNeeded({ timeout: 4000 });
       break;
     case 'location': {
       const url = new URL(page.url());
