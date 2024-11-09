@@ -404,6 +404,13 @@ class Cy {
           negation,
         });
         break;
+      case 'visible':
+        pushQueue({
+          type: 'assertion',
+          name: 'dom.visible',
+          negation,
+        });
+        break;
       default: {
         throw new Error(`Unknown assertion "${assertion}"`);
       }
