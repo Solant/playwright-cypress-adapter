@@ -1,6 +1,8 @@
 import { arch, platform } from 'node:os';
 
 import {
+  ClickActionModifiers,
+  ClickActionPosition,
   pushQueue,
 } from './actions';
 
@@ -144,8 +146,111 @@ class Cy {
     return this.selfOrChild();
   }
 
-  click() {
-    pushQueue({ type: 'click' });
+  // TODO: refactor
+  dblclick(...args: Array<string | number | object | undefined>) {
+    const [x, y] = args.filter((arg) => typeof arg === 'number');
+    const position = args.find((arg) => typeof arg === 'string');
+    const options = args.find((arg) => typeof arg === 'object');
+
+    const modifiers: Array<ClickActionModifiers> = [];
+    if (options) {
+      if ('altKey' in options && options.altKey === true) {
+        modifiers.push('Alt');
+      }
+      if ('ctrlKey' in options && options.ctrlKey === true) {
+        modifiers.push('Control');
+      }
+      if ('metaKey' in options && options.metaKey === true) {
+        modifiers.push('Meta');
+      }
+      if ('shiftKey' in options && options.shiftKey === true) {
+        modifiers.push('Shift');
+      }
+    }
+
+    pushQueue({
+      type: 'click',
+      position: position as ClickActionPosition || (x !== undefined ? { x, y } : undefined),
+      double: true,
+      button: 'left',
+      force: (options && 'force' in options && options.force === true) || false,
+      modifiers,
+      multiple: (options && 'multiple' in options && options.multiple === true),
+    });
+
+    return this.selfOrChild();
+  }
+
+  // TODO: refactor
+  rightclick(...args: Array<string | number | object | undefined>) {
+    const [x, y] = args.filter((arg) => typeof arg === 'number');
+    const position = args.find((arg) => typeof arg === 'string');
+    const options = args.find((arg) => typeof arg === 'object');
+
+    const modifiers: Array<ClickActionModifiers> = [];
+    if (options) {
+      if ('altKey' in options && options.altKey === true) {
+        modifiers.push('Alt');
+      }
+      if ('ctrlKey' in options && options.ctrlKey === true) {
+        modifiers.push('Control');
+      }
+      if ('metaKey' in options && options.metaKey === true) {
+        modifiers.push('Meta');
+      }
+      if ('shiftKey' in options && options.shiftKey === true) {
+        modifiers.push('Shift');
+      }
+    }
+
+    pushQueue({
+      type: 'click',
+      position: position as ClickActionPosition || (x !== undefined ? { x, y } : undefined),
+      double: false,
+      button: 'right',
+      force: (options && 'force' in options && options.force === true) || false,
+      modifiers,
+      multiple: (options && 'multiple' in options && options.multiple === true),
+    });
+
+    return this.selfOrChild();
+  }
+
+  click(): Cy;
+  click(options: Record<string, unknown>): Cy;
+  click(position: string, options?: Record<string, unknown>): Cy;
+  click(x: number, y: number, options?: Record<string, unknown>): Cy;
+  click(...args: Array<string | number | object | undefined>): Cy {
+    const [x, y] = args.filter((arg) => typeof arg === 'number');
+    const position = args.find((arg) => typeof arg === 'string');
+    const options = args.find((arg) => typeof arg === 'object');
+
+    const modifiers: Array<ClickActionModifiers> = [];
+    if (options) {
+      if ('altKey' in options && options.altKey === true) {
+        modifiers.push('Alt');
+      }
+      if ('ctrlKey' in options && options.ctrlKey === true) {
+        modifiers.push('Control');
+      }
+      if ('metaKey' in options && options.metaKey === true) {
+        modifiers.push('Meta');
+      }
+      if ('shiftKey' in options && options.shiftKey === true) {
+        modifiers.push('Shift');
+      }
+    }
+
+    pushQueue({
+      type: 'click',
+      position: position as ClickActionPosition || (x !== undefined ? { x, y } : undefined),
+      double: false,
+      button: 'left',
+      force: (options && 'force' in options && options.force === true) || false,
+      modifiers,
+      multiple: (options && 'multiple' in options && options.multiple === true),
+    });
+
     return this.selfOrChild();
   }
 
@@ -296,6 +401,13 @@ class Cy {
           type: 'assertion',
           name: 'dom.value',
           value: value.toString(),
+          negation,
+        });
+        break;
+      case 'visible':
+        pushQueue({
+          type: 'assertion',
+          name: 'dom.visible',
           negation,
         });
         break;

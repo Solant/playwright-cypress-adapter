@@ -60,7 +60,24 @@ type AssertActions = {
   name: 'dom.value',
   value: string,
   negation?: boolean,
+} | {
+  type: 'assertion',
+  name: 'dom.visible',
+  negation?: boolean,
 };
+
+export type ClickActionPosition =
+  'topLeft'
+  | 'top'
+  | 'topRight'
+  | 'left'
+  | 'center'
+  | 'right'
+  | 'bottomLeft'
+  | 'bottom'
+  | 'bottomRight';
+
+export type ClickActionModifiers = 'Control' | 'Alt' | 'Shift' | 'Meta';
 
 export type Action = AssertActions | {
   type: 'navigate',
@@ -78,6 +95,15 @@ export type Action = AssertActions | {
   type: 'check'
 } | {
   type: 'click',
+  position?: ClickActionPosition | {
+    x: number,
+    y: number
+  },
+  force: boolean,
+  modifiers: Array<ClickActionModifiers>,
+  button: 'left' | 'right',
+  double: boolean,
+  multiple?: boolean,
 } | {
   type: 'keyboard',
   action: 'press',
@@ -146,10 +172,22 @@ function resolveSelectorItem(parent: Locator | Page, selector: Selector[number])
   }
 }
 
+function expectWrapper<T>(arg: T, negation?: boolean) {
+  return negation ? expect(arg).not : expect(arg);
+}
+
+type LocatorSubject = { type: 'locator', value: Locator };
+
 export type Subject =
-  { type: 'locator', value: Locator }
+  LocatorSubject
   | { type: 'value', value: unknown }
   | { type: 'handle', value: JSHandle };
+
+function assertLocator(arg: Subject): asserts arg is LocatorSubject {
+  if (arg.type !== 'locator') {
+    throw new Error(`Expected Locator subject, got ${arg.type}`);
+  }
+}
 
 export async function evaluateAction(
   page: Page,
@@ -330,6 +368,10 @@ export async function evaluateAction(
             await usingLooseMode(subject.value, (el) => expect(el).toBeChecked());
           }
           break;
+        case 'dom.visible':
+          assertLocator(subject);
+          await expectWrapper(subject.value, action.negation).toBeVisible();
+          break;
         default:
           throw new Error(`Unknown assertion type "${(action as Record<string, unknown>).name}"`);
       }
@@ -362,12 +404,28 @@ export async function evaluateAction(
       await usingLooseMode(subject.value, (el) => el.check());
       break;
     }
-    case 'click':
-      if (subject.type !== 'locator') {
-        throw new Error(`count assertion expected locator, got ${subject.type} ${subject.value}`);
+    case 'click': {
+      assertLocator(subject);
+      const options = {
+        force: action.force,
+        button: action.button,
+        position: (typeof action.position === 'object') ? action.position : undefined,
+        modifiers: action.modifiers,
+      };
+
+      if (action.multiple) {
+        await usingLooseMode(
+          subject.value,
+          (el) => (action.double ? el.dblclick(options) : el.click(options)),
+        );
+      } else if (action.double) {
+        await subject.value.dblclick(options);
+      } else {
+        await subject.value.click(options);
       }
-      await subject.value.click();
+
       break;
+    }
     case 'title':
       return { type: 'value', value: await page.title() };
     case 'pause':
