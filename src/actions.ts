@@ -239,64 +239,32 @@ export async function evaluateAction(
     case 'assertion':
       switch (action.name) {
         case 'dom.length':
-          if (subject.type !== 'locator') {
-            throw new Error(`count assertion expected locator, got ${subject.type} ${subject.value}`);
-          }
-          if (subject.type === 'locator') {
-            await expect(subject.value).toHaveCount(action.value);
-          }
+          assertLocator(subject);
+          await expectWrapper(subject.value, action.negation).toHaveCount(action.value);
           break;
         case 'dom.text':
-          if (subject.type !== 'locator') {
-            throw new Error(`count assertion expected locator, got ${subject.type} ${subject.value}`);
-          }
-          if (action.negation) {
-            await expect(subject.value).not.toHaveText(action.value);
-          } else {
-            await expect(subject.value).toHaveText(action.value);
-          }
+          assertLocator(subject);
+          await expectWrapper(subject.value, action.negation).toHaveText(action.value);
           break;
         case 'dom.class':
-          if (subject.type !== 'locator') {
-            throw new Error(`count assertion expected locator, got ${subject.type} ${subject.value}`);
-          }
-          await expect(subject.value).toHaveClass(new RegExp(action.value));
+          assertLocator(subject);
+          await expectWrapper(subject.value, action.negation).toHaveClass(new RegExp(action.value));
           break;
         case 'dom.exist':
-          if (subject.type !== 'locator') {
-            throw new Error(`count assertion expected locator, got ${subject.type} ${subject.value}`);
-          }
-          if (action.negation) {
-            await expect(subject.value).toBeHidden();
-          } else {
-            await expect(subject.value).toBeVisible();
-          }
+          assertLocator(subject);
+          await expectWrapper(subject.value, action.negation).toBeVisible();
           break;
         case 'dom.value':
-          if (subject.type !== 'locator') {
-            throw new Error(`assertion expected locator, got ${subject.type} ${subject.value}`);
-          }
-          if (action.negation) {
-            await expect(subject.value).not.toHaveValue(action.value);
-          } else {
-            await expect(subject.value).toHaveValue(action.value);
-          }
+          assertLocator(subject);
+          await expectWrapper(subject.value, action.negation).toHaveValue(action.value);
           break;
         case 'include':
           if (subject.type === 'value') {
-            if (action.negation) {
-              expect(subject.value).not.toContain(action.value);
-            } else {
-              expect(subject.value).toContain(action.value);
-            }
+            expectWrapper(subject.value, action.negation).toContain(action.value);
             break;
           }
           if (subject.type === 'locator') {
-            if (action.negation) {
-              await expect(subject.value).not.toContainText(action.value);
-            } else {
-              await expect(subject.value).toContainText(action.value);
-            }
+            await expectWrapper(subject.value, action.negation).toContainText(action.value);
             break;
           }
           throw new Error('Handle subject is not implemented');
@@ -306,19 +274,11 @@ export async function evaluateAction(
               (ctx) => Object.prototype.hasOwnProperty.call(ctx.subject, ctx.property),
               { subject: subject.value, property: action.value },
             );
-            if (action.negation) {
-              expect(result).not.toBe(true);
-            } else {
-              expect(result).toBe(true);
-            }
+            expectWrapper(result, action.negation).toBe(true);
             break;
           }
 
-          if (action.negation) {
-            expect(subject.value).not.toHaveProperty(action.value);
-          } else {
-            expect(subject.value).toHaveProperty(action.value);
-          }
+          expectWrapper(subject.value, action.negation).toHaveProperty(action.value);
           break;
         case 'empty':
           if (subject.type === 'value') {
@@ -343,27 +303,15 @@ export async function evaluateAction(
             }
           }
           if (subject.type === 'locator') {
-            if (action.negation) {
-              await expect(subject.value).not.toBeEmpty();
-              break;
-            } else {
-              await expect(subject.value).toBeEmpty();
-            }
+            await expectWrapper(subject.value, action.negation).toBeEmpty();
             break;
           }
           throw new Error('Handle subject is not implemented');
         case 'equal':
-          if (action.negation) {
-            expect(subject.value).not.toBe(action.value);
-            break;
-          }
-
-          expect(subject.value).toBe(action.value);
+          expectWrapper(subject.value, action.negation).toBe(action.value);
           break;
         case 'dom.checked':
-          if (subject.type !== 'locator') {
-            throw new Error('Locator expected');
-          }
+          assertLocator(subject);
           if (action.negation) {
             await usingLooseMode(subject.value, (el) => expect(el).not.toBeChecked());
           } else {
@@ -379,15 +327,11 @@ export async function evaluateAction(
       }
       break;
     case 'fill':
-      if (subject.type !== 'locator') {
-        throw new Error(`expected locator, got ${subject.type} ${subject.value}`);
-      }
+      assertLocator(subject);
       await subject.value.fill(action.value);
       break;
     case 'clear':
-      if (subject.type !== 'locator') {
-        throw new Error(`expected locator, got ${subject.type} ${subject.value}`);
-      }
+      assertLocator(subject);
       await subject.value.clear();
       break;
     case 'keyboard':
@@ -400,9 +344,7 @@ export async function evaluateAction(
       }
       break;
     case 'check': {
-      if (subject.type !== 'locator') {
-        throw new Error(`count assertion expected locator, got ${subject.type} ${subject.value}`);
-      }
+      assertLocator(subject);
       await usingLooseMode(subject.value, (el) => el.check());
       break;
     }
