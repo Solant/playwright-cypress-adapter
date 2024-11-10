@@ -302,7 +302,6 @@ context('Actions', () => {
   })
    */
 
-  /*
   it('cy.scrollTo() - scroll the window or element to a position', () => {
     // https://on.cypress.io/scrollto
 
@@ -339,5 +338,4 @@ context('Actions', () => {
     // control the duration of the scroll (in ms)
     cy.get('#scrollable-both').scrollTo('center', { duration: 2000 })
   })
-   */
 })

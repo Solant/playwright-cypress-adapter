@@ -55,7 +55,7 @@
 | [.dblclick()](https://docs.cypress.io/api/commands/dblclick)             |      ✅       |    ⚠️     | [1](#1-forcing-interaction), position argument accepts only x, y coordinates |
 | [.rightclick()](https://docs.cypress.io/api/commands/rightclick)         |      ✅       |    ⚠️     | [1](#1-forcing-interaction), position argument accepts only x, y coordinates |
 | [.scrollIntoView()](https://docs.cypress.io/api/commands/scrollIntoView) |      ✅       |    🕓     |                                                                              |
-| [.scrollTo()](https://docs.cypress.io/api/commands/scrollTo)             |      🕓      |    🕓     |                                                                              |
+| [.scrollTo()](https://docs.cypress.io/api/commands/scrollTo)             |      ✅       |    ⚠️     | `duration`, `easing` and `ensureScrollable` options are not implemented      |
 | [.select()](https://docs.cypress.io/api/commands/select)                 |      🕓      |    🕓     |                                                                              |
 | [.selectFile()](https://docs.cypress.io/api/commands/selectFile)         |      🕓      |    🕓     |                                                                              |
 | [.trigger()](https://docs.cypress.io/api/commands/trigger)               |      🕓      |    🕓     |                                                                              |

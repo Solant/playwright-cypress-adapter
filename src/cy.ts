@@ -186,6 +186,18 @@ class Cy {
     return this.selfOrChild();
   }
 
+  scrollTo(position: string | number, y?: string | number) {
+    if (typeof position === 'string' && !position.endsWith('%')) {
+      pushQueue({ type: 'scrollTo', position: position as ClickActionPosition });
+    } else {
+      pushQueue({
+        type: 'scrollTo',
+        position: { x: position, y: y! },
+      });
+    }
+    return this.selfOrChild();
+  }
+
   // TODO: refactor
   rightclick(...args: Array<string | number | object | undefined>) {
     const [x, y] = args.filter((arg) => typeof arg === 'number');
