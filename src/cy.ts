@@ -151,6 +151,11 @@ class Cy {
     return this.selfOrChild();
   }
 
+  select(value: string | string[]) {
+    pushQueue({ type: 'select', value });
+    return this.selfOrChild();
+  }
+
   // TODO: refactor
   dblclick(...args: Array<string | number | object | undefined>) {
     const [x, y] = args.filter((arg) => typeof arg === 'number');

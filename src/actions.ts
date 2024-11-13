@@ -144,6 +144,9 @@ export type Action = AssertActions | {
 } | {
   type: 'dispatchEvent',
   event: string
+} | {
+  type: 'select',
+  value: string | string[],
 };
 
 let queue: Array<Action> = [];
@@ -541,6 +544,10 @@ export async function evaluateAction(
     case 'dispatchEvent':
       assertLocator(subject);
       await subject.value.dispatchEvent(action.event);
+      break;
+    case 'select':
+      assertLocator(subject);
+      await subject.value.selectOption(action.value);
       break;
     default:
       throw new Error(`Action type "${(action as Record<string, unknown>).type}" is not implemented`);
