@@ -92,7 +92,8 @@ export type Action = AssertActions | {
 } | {
   type: 'clear',
 } | {
-  type: 'check'
+  type: 'check',
+  value: boolean,
 } | {
   type: 'click',
   position?: ClickActionPosition | {
@@ -351,7 +352,7 @@ export async function evaluateAction(
       break;
     case 'check': {
       assertLocator(subject);
-      await usingLooseMode(subject.value, (el) => el.check());
+      await usingLooseMode(subject.value, (el) => el.setChecked(action.value));
       break;
     }
     case 'click': {

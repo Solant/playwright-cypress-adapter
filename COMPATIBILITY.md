@@ -49,7 +49,7 @@
 
 | Command                                                                  | Basic syntax | Arguments | Notes                                                                               |
 |--------------------------------------------------------------------------|:------------:|:---------:|-------------------------------------------------------------------------------------|
-| [.check()](https://docs.cypress.io/api/commands/check)                   |      ⚠️      |    🕓     | string and array argument is not implemented                                        |
+| [.check()](https://docs.cypress.io/api/commands/check)                   |      ⚠️      |    🕓     | [1](#1-forcing-interaction), string and array argument is not implemented           |
 | [.clear()](https://docs.cypress.io/api/commands/clear)                   |      ✅       |     -     |                                                                                     |
 | [.click()](https://docs.cypress.io/api/commands/click)                   |      ✅       |    ⚠️     | [1](#1-forcing-interaction), position argument accepts only x, y coordinates        | 
 | [.dblclick()](https://docs.cypress.io/api/commands/dblclick)             |      ✅       |    ⚠️     | [1](#1-forcing-interaction), position argument accepts only x, y coordinates        |
@@ -60,7 +60,7 @@
 | [.selectFile()](https://docs.cypress.io/api/commands/selectFile)         |      🕓      |    🕓     |                                                                                     |
 | [.trigger()](https://docs.cypress.io/api/commands/trigger)               |     ️ ✅      |    ⚠️     | [1](#1-forcing-interaction), `position`, `x`, `y` and `options` are not implemented |
 | [.type()](https://docs.cypress.io/api/commands/type)                     |     ️ ✅      |    🕓     | [1](#1-forcing-interaction)                                                         |
-| [.uncheck()](https://docs.cypress.io/api/commands/uncheck)               |      🕓      |    🕓     |                                                                                     |
+| [.uncheck()](https://docs.cypress.io/api/commands/uncheck)               |      ⚠️      |    🕓     | [1](#1-forcing-interaction), string and array argument is not implemented           |
 
 ## Assertions
 

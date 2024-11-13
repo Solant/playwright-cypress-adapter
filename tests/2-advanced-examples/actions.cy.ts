@@ -174,7 +174,6 @@ context('Actions', () => {
      */
   })
 
-  /*
   it('.uncheck() - uncheck a checkbox element', () => {
     // https://on.cypress.io/uncheck
 
@@ -188,28 +187,27 @@ context('Actions', () => {
       .should('not.be.checked')
 
     // .uncheck() accepts a value argument
-    cy.get('.action-check [type="checkbox"]')
-      .check('checkbox1')
-    cy.get('.action-check [type="checkbox"]')
-      .uncheck('checkbox1')
-    cy.get('.action-check [type="checkbox"][value="checkbox1"]')
-      .should('not.be.checked')
+    // cy.get('.action-check [type="checkbox"]')
+    //   .check('checkbox1')
+    // cy.get('.action-check [type="checkbox"]')
+    //   .uncheck('checkbox1')
+    // cy.get('.action-check [type="checkbox"][value="checkbox1"]')
+    //   .should('not.be.checked')
 
     // .uncheck() accepts an array of values
-    cy.get('.action-check [type="checkbox"]')
-      .check(['checkbox1', 'checkbox3'])
-    cy.get('.action-check [type="checkbox"]')
-      .uncheck(['checkbox1', 'checkbox3'])
-    cy.get('.action-check [type="checkbox"][value="checkbox1"]')
-      .should('not.be.checked')
-    cy.get('.action-check [type="checkbox"][value="checkbox3"]')
-      .should('not.be.checked')
+    // cy.get('.action-check [type="checkbox"]')
+    //   .check(['checkbox1', 'checkbox3'])
+    // cy.get('.action-check [type="checkbox"]')
+    //   .uncheck(['checkbox1', 'checkbox3'])
+    // cy.get('.action-check [type="checkbox"][value="checkbox1"]')
+    //   .should('not.be.checked')
+    // cy.get('.action-check [type="checkbox"][value="checkbox3"]')
+    //   .should('not.be.checked')
 
     // Ignore error checking prior to unchecking
-    cy.get('.action-check [disabled]').uncheck({ force: true })
-    cy.get('.action-check [disabled]').should('not.be.checked')
+    // cy.get('.action-check [disabled]').uncheck({ force: true })
+    // cy.get('.action-check [disabled]').should('not.be.checked')
   })
-   */
 
   /*
   it('.select() - select an option in a <select> element', () => {

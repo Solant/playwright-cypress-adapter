@@ -142,7 +142,12 @@ class Cy {
   }
 
   check() {
-    pushQueue({ type: 'check' });
+    pushQueue({ type: 'check', value: true });
+    return this.selfOrChild();
+  }
+
+  uncheck() {
+    pushQueue({ type: 'check', value: false });
     return this.selfOrChild();
   }
 
