@@ -198,6 +198,11 @@ class Cy {
     return this.selfOrChild();
   }
 
+  trigger(event: string) {
+    pushQueue({ type: 'dispatchEvent', event });
+    return this.selfOrChild();
+  }
+
   // TODO: refactor
   rightclick(...args: Array<string | number | object | undefined>) {
     const [x, y] = args.filter((arg) => typeof arg === 'number');

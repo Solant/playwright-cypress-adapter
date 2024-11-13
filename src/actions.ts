@@ -140,6 +140,9 @@ export type Action = AssertActions | {
 } | {
   type: 'scrollTo',
   position: ClickActionPosition | { x: string | number, y: string | number },
+} | {
+  type: 'dispatchEvent',
+  event: string
 };
 
 let queue: Array<Action> = [];
@@ -534,6 +537,10 @@ export async function evaluateAction(
         },
       };
     }
+    case 'dispatchEvent':
+      assertLocator(subject);
+      await subject.value.dispatchEvent(action.event);
+      break;
     default:
       throw new Error(`Action type "${(action as Record<string, unknown>).type}" is not implemented`);
   }
