@@ -18,7 +18,7 @@
 | [.filter()](https://docs.cypress.io/api/commands/filter)             |      ✅       |     -     | [3](#3-timeouts)                                                                              |
 | [.find()](https://docs.cypress.io/api/commands/find)                 |      ✅       |    ⚠️     | `includeShadowDom` option is not implemented, [3](#3-timeouts)                                |
 | [.first()](https://docs.cypress.io/api/commands/first)               |      ✅       |     -     | [3](#3-timeouts)                                                                              |
-| [.focused()](https://docs.cypress.io/api/commands/focused)           |      🕓      |    🕓     |                                                                                               |
+| [.focused()](https://docs.cypress.io/api/commands/focused)           |      ✅       |     -     |                                                                                               |
 | [.get()](https://docs.cypress.io/api/commands/get)                   |      ✅       |    ⚠️     | `includeShadowDom`, `withinSubject` options are not implemented, [3](#3-timeouts)             |
 | [.hash()](https://docs.cypress.io/api/commands/hash)                 |      ✅       |     -     | [3](#3-timeouts)                                                                              |
 | [.invoke()](https://docs.cypress.io/api/commands/invoke)             |      🕓      |    🕓     |                                                                                               |
@@ -72,7 +72,7 @@
 
 | Command                                                                                   | Basic syntax | Arguments | Notes                                      |
 |-------------------------------------------------------------------------------------------|:------------:|:---------:|--------------------------------------------|
-| [.blur()](https://docs.cypress.io/api/commands/blur)                                      |      🕓      |    🕓     |                                            |
+| [.blur()](https://docs.cypress.io/api/commands/blur)                                      |      ✅       |     -     | [1](#1-forcing-interaction)                |
 | [.clearAllCookies()](https://docs.cypress.io/api/commands/clearallcookies)                |      🕓      |    🕓     |                                            |
 | [.clearAllLocalStorage()](https://docs.cypress.io/api/commands/clearalllocalstorage)      |      🕓      |    🕓     |                                            |
 | [.clearAllSessionStorage()](https://docs.cypress.io/api/commands/clearallsessionstorage/) |      🕓      |    🕓     |                                            |
@@ -85,7 +85,7 @@
 | [.end()](https://docs.cypress.io/api/commands/end)                                        |      🕓      |    🕓     |                                            |
 | [.exec()](https://docs.cypress.io/api/commands/exec)                                      |      🕓      |    🕓     |                                            |
 | [.fixture()](https://docs.cypress.io/api/commands/fixture)                                |      🕓      |    🕓     |                                            |
-| [.focus()](https://docs.cypress.io/api/commands/focus)                                    |      🕓      |    🕓     |                                            |
+| [.focus()](https://docs.cypress.io/api/commands/focus)                                    |      ✅       |     -     |                                            |
 | [.getAllCookies()](https://docs.cypress.io/api/commands/getallcookies)                    |      🕓      |    🕓     |                                            |
 | [.getAllLocalStorage()](https://docs.cypress.io/api/commands/getalllocalstorage)          |      🕓      |    🕓     |                                            |
 | [.getAllSessionStorage()](https://docs.cypress.io/api/commands/getallsessionstorage)      |      🕓      |    🕓     |                                            |

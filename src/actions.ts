@@ -5,10 +5,10 @@ import {
 export type SpecialSelector = { modifier: 'first' } | { modifier: 'last' } | {
   modifier: 'contains',
   value: string,
-  exact: boolean
+  exact: boolean,
 } | {
   modifier: 'nth',
-  value: number
+  value: number,
 };
 
 export type Selector = Array<string | SpecialSelector>;
@@ -64,6 +64,12 @@ type AssertActions = {
   type: 'assertion',
   name: 'dom.visible',
   negation?: boolean,
+} | {
+  type: 'assertion',
+  name: 'dom.attr',
+  attribute: string,
+  value: string,
+  negation?: boolean,
 };
 
 export type ClickActionPosition =
@@ -81,7 +87,7 @@ export type ClickActionModifiers = 'Control' | 'Alt' | 'Shift' | 'Meta';
 
 export type Action = AssertActions | {
   type: 'navigate',
-  url: string
+  url: string,
 } | {
   type: 'locator',
   selector: Selector,
@@ -98,7 +104,7 @@ export type Action = AssertActions | {
   type: 'click',
   position?: ClickActionPosition | {
     x: number,
-    y: number
+    y: number,
   },
   force: boolean,
   modifiers: Array<ClickActionModifiers>,
@@ -110,9 +116,9 @@ export type Action = AssertActions | {
   action: 'press',
   key: string,
 } | {
-  type: 'title'
+  type: 'title',
 } | {
-  type: 'pause'
+  type: 'pause',
 } | {
   type: 'subject',
   value: unknown,
@@ -132,21 +138,25 @@ export type Action = AssertActions | {
     | 'pathname'
     | 'port'
     | 'protocol'
-    | 'search'
+    | 'search',
 } | {
   type: 'handle',
   global: 'window' | 'document',
 } | {
-  type: 'scrollIntoView'
+  type: 'scrollIntoView',
 } | {
   type: 'scrollTo',
   position: ClickActionPosition | { x: string | number, y: string | number },
 } | {
   type: 'dispatchEvent',
-  event: string
+  event: string,
 } | {
   type: 'select',
   value: string | string[],
+} | {
+  type: 'blur',
+} | {
+  type: 'focus',
 };
 
 let queue: Array<Action> = [];
@@ -259,6 +269,10 @@ export async function evaluateAction(
         case 'dom.class':
           assertLocator(subject);
           await expectWrapper(subject.value, action.negation).toHaveClass(new RegExp(action.value));
+          break;
+        case 'dom.attr':
+          assertLocator(subject);
+          await expectWrapper(subject.value, action.negation).toHaveAttribute(action.attribute, action.value);
           break;
         case 'dom.exist':
           assertLocator(subject);
@@ -548,6 +562,14 @@ export async function evaluateAction(
     case 'select':
       assertLocator(subject);
       await subject.value.selectOption(action.value);
+      break;
+    case 'blur':
+      assertLocator(subject);
+      await subject.value.blur();
+      break;
+    case 'focus':
+      assertLocator(subject);
+      await subject.value.focus();
       break;
     default:
       throw new Error(`Action type "${(action as Record<string, unknown>).type}" is not implemented`);

@@ -13,6 +13,21 @@ export default [
     rules: {
       'no-useless-constructor': 'off',
       '@typescript-eslint/no-useless-constructor': 'error',
+      '@stylistic/max-len': ['error', 120],
+      '@stylistic/member-delimiter-style': [
+        'error',
+        {
+          multiline: {
+            delimiter: 'comma',
+            requireLast: true,
+          },
+          singleline: {
+            delimiter: 'comma',
+            requireLast: false,
+          },
+          multilineDetection: 'brackets',
+        },
+      ],
     },
   },
   {

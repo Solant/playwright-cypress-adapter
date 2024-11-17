@@ -208,6 +208,21 @@ class Cy {
     return this.selfOrChild();
   }
 
+  blur() {
+    pushQueue({ type: 'blur' });
+    return this.selfOrChild();
+  }
+
+  focus() {
+    pushQueue({ type: 'focus' });
+    return this.selfOrChild();
+  }
+
+  focused() {
+    pushQueue({ type: 'locator', selector: ['*:focus'], root: true });
+    return this.selfOrChild();
+  }
+
   trigger(event: string) {
     pushQueue({ type: 'dispatchEvent', event });
     return this.selfOrChild();
@@ -347,7 +362,7 @@ class Cy {
     return this.should(assertionChain, value);
   }
 
-  should(assertionChain: string, value: string | number) {
+  should(assertionChain: string, value: string | number, value2?: string) {
     const { assertion, negation } = parseBddChain(assertionChain);
     switch (assertion) {
       case 'length': {
@@ -441,6 +456,15 @@ class Cy {
           type: 'assertion',
           name: 'dom.visible',
           negation,
+        });
+        break;
+      case 'attr':
+        pushQueue({
+          type: 'assertion',
+          name: 'dom.attr',
+          negation,
+          attribute: value.toString(),
+          value: value2!.toString(),
         });
         break;
       default: {
