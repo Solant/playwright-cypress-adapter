@@ -1,4 +1,5 @@
 import {
+  type Cookie,
   expect, JSHandle, Locator, Page,
 } from '@playwright/test';
 
@@ -50,6 +51,10 @@ type AssertActions = {
   type: 'assertion',
   name: 'equal',
   value: unknown,
+  negation?: boolean,
+} | {
+  type: 'assertion',
+  name: 'null',
   negation?: boolean,
 } | {
   type: 'assertion',
@@ -157,7 +162,32 @@ export type Action = AssertActions | {
   type: 'blur',
 } | {
   type: 'focus',
+} | {
+  type: 'cookie.clear',
+  filter?: {
+    name?: string | RegExp,
+    domain?: string | RegExp,
+  },
+} | {
+  type: 'cookie.get',
+  name: string,
+  domain?: string,
+  multiple: false,
+} | {
+  type: 'cookie.get',
+  domain?: string,
+  multiple: true,
+} | {
+  type: 'cookie.set',
+  cookie: Omit<Cookie, 'sameSite'>,
 };
+
+function resolveDomain(page: Page, domain?: string | '__CURRENT_DOMAIN__'): string | undefined {
+  if (domain === '__CURRENT_DOMAIN__') {
+    return `.${new URL(page.url()).hostname}`;
+  }
+  return domain;
+}
 
 let queue: Array<Action> = [];
 
@@ -259,8 +289,11 @@ export async function evaluateAction(
     case 'assertion':
       switch (action.name) {
         case 'dom.length':
-          assertLocator(subject);
-          await expectWrapper(subject.value, action.negation).toHaveCount(action.value);
+          if (subject.type === 'locator') {
+            await expectWrapper(subject.value, action.negation).toHaveCount(action.value);
+          } else {
+            expectWrapper(subject.value, action.negation).toHaveLength(action.value);
+          }
           break;
         case 'dom.text':
           assertLocator(subject);
@@ -345,6 +378,9 @@ export async function evaluateAction(
         case 'dom.visible':
           assertLocator(subject);
           await expectWrapper(subject.value, action.negation).toBeVisible();
+          break;
+        case 'null':
+          expectWrapper(subject.value, action.negation).toBe(null);
           break;
         default:
           throw new Error(`Unknown assertion type "${(action as Record<string, unknown>).name}"`);
@@ -570,6 +606,23 @@ export async function evaluateAction(
     case 'focus':
       assertLocator(subject);
       await subject.value.focus();
+      break;
+    case 'cookie.clear':
+      await page.context().clearCookies(action.filter ? {
+        name: action.filter.name,
+      } : action.filter);
+      break;
+    case 'cookie.get': {
+      const cookies = await page.context().cookies();
+      return {
+        type: 'value',
+        value: action.multiple
+          ? cookies
+          : (cookies.find((cookie) => cookie.name === action.name) ?? null),
+      };
+    }
+    case 'cookie.set':
+      await page.context().addCookies([{ ...action.cookie, domain: resolveDomain(page, action.cookie.domain) }]);
       break;
     default:
       throw new Error(`Action type "${(action as Record<string, unknown>).type}" is not implemented`);

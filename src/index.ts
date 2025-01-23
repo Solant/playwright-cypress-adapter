@@ -55,4 +55,11 @@ export function setup() {
   global.describe = describe;
   // @ts-expect-error global this injection
   global.context = context;
+  // @ts-expect-error global this injection
+  global.Cypress = {
+    Cookies: {
+      debug() {
+      },
+    },
+  };
 }

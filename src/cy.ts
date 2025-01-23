@@ -310,6 +310,62 @@ class Cy {
     return this.selfOrChild();
   }
 
+  // eslint-disable-next-line class-methods-use-this
+  clearAllCookies() {
+    pushQueue({ type: 'cookie.clear' });
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  clearCookies(options?: { domain?: string }) {
+    pushQueue({ type: 'cookie.clear', filter: { domain: options?.domain ?? '__CURRENT_DOMAIN__' } });
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  clearCookie(name: string, options?: { domain?: string }) {
+    pushQueue({ type: 'cookie.clear', filter: { name, domain: options?.domain } });
+  }
+
+  getCookie(name: string, options?: { domain?: string }) {
+    pushQueue({
+      type: 'cookie.get', name, domain: options?.domain, multiple: false,
+    });
+    return this.selfOrChild();
+  }
+
+  getCookies(options?: { domain?: string }) {
+    pushQueue({ type: 'cookie.get', domain: options?.domain ?? '__CURRENT_DOMAIN__', multiple: true });
+    return this.selfOrChild();
+  }
+
+  getAllCookies() {
+    pushQueue({ type: 'cookie.get', multiple: true });
+    return this.selfOrChild();
+  }
+
+  setCookie(name: string, value: string, options?: {
+    domain?: string,
+    expiry?: number,
+    hostOnly?: boolean,
+    httpOnly?: boolean,
+    path?: string,
+    secure?: boolean,
+    sameSite?: 'lax' | 'strict' | 'no_restriction',
+  }) {
+    pushQueue({
+      type: 'cookie.set',
+      cookie: {
+        domain: options?.domain ?? '__CURRENT_DOMAIN__',
+        name,
+        value,
+        path: options?.path ?? '/',
+        httpOnly: options?.httpOnly ?? false,
+        secure: options?.secure ?? false,
+        expires: options?.expiry ?? (Math.floor(Date.now() / 1000) + 631139040),
+      },
+    });
+    return this.selfOrChild();
+  }
+
   wait(value: number | string) {
     pushQueue({ type: 'wait', value: value as number });
     return this.selfOrChild();
@@ -465,6 +521,13 @@ class Cy {
           negation,
           attribute: value.toString(),
           value: value2!.toString(),
+        });
+        break;
+      case 'null':
+        pushQueue({
+          type: 'assertion',
+          name: 'null',
+          negation,
         });
         break;
       default: {
