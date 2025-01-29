@@ -657,3 +657,36 @@ export function replaceQueue(index: number, action: Action) {
     queue[queue.length + index] = action;
   }
 }
+
+type PageAction = {
+  (subject: Subject, page: Page, aliasMap: Record<string, Subject>): Promise<Subject>,
+};
+
+class ActionRegistry<T = unknown> {
+  private map = new Map<string, PageAction>();
+
+  action<Payload extends {
+    type: string,
+  }>(type: Payload['type'], callback: PageAction): ActionRegistry<T extends unknown ? Payload : (T | Payload)> {
+    this.map.set(type, callback);
+    // @ts-expect-error type safe builder
+    return this;
+  }
+
+  evaluateAction(action: T, ...context: Parameters<PageAction>) {
+    // @ts-expect-error get action type
+    const type = action.type as string;
+    const fn = this.map.get(type);
+    if (!fn) {
+      throw new Error(`Unknown action "${type}"`);
+    }
+
+    return fn.call(null, ...context);
+  }
+}
+
+let a = new ActionRegistry()
+  .action<{ type: 'check', value: boolean }>('check', (_subject, page) => {
+    page.url();
+    return Promise.resolve({ type: 'value', value: 3 });
+  });
