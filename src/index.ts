@@ -3,7 +3,7 @@ import { test } from '@playwright/test';
 import {
   resetQueue, cloneQueue, evaluateAction, Subject,
 } from './actions';
-import { cy } from './cy';
+import { cy, Cypress } from './cy';
 
 export const { describe } = test;
 export const context = test.describe;
@@ -56,10 +56,5 @@ export function setup() {
   // @ts-expect-error global this injection
   global.context = context;
   // @ts-expect-error global this injection
-  global.Cypress = {
-    Cookies: {
-      debug() {
-      },
-    },
-  };
+  global.Cypress = Cypress;
 }

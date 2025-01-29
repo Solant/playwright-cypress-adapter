@@ -577,4 +577,8 @@ export const Cypress = {
   arch: arch(),
   platform: platform(),
   version: '12.0.0',
+  Cookies: {
+    debug() {
+    },
+  },
 };
