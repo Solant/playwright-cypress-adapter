@@ -182,13 +182,6 @@ export type Action = AssertActions | {
   cookie: Omit<Cookie, 'sameSite'>,
 };
 
-function resolveDomain(page: Page, domain?: string | '__CURRENT_DOMAIN__'): string | undefined {
-  if (domain === '__CURRENT_DOMAIN__') {
-    return `.${new URL(page.url()).hostname}`;
-  }
-  return domain;
-}
-
 let queue: Array<Action> = [];
 
 /**
@@ -330,13 +323,6 @@ export async function evaluateAction(
           throw new Error(`Unknown assertion type "${(action as Record<string, unknown>).name}"`);
       }
       break;
-    case 'wait':
-      await page.waitForTimeout(action.value);
-      break;
-    case 'scrollIntoView':
-      assertLocator(subject);
-      await subject.value.scrollIntoViewIfNeeded({ timeout: 4000 });
-      break;
     case 'scrollTo':
       if (subject.type === 'value' && subject.value === null) {
         await page.evaluate(({ position }) => {
@@ -463,61 +449,6 @@ export async function evaluateAction(
         }
         el.scrollTo(options);
       }, { position: action.position });
-      break;
-    case 'location': {
-      const url = new URL(page.url());
-      if (action.key) {
-        return { type: 'value', value: url[action.key] };
-      }
-      return {
-        type: 'value',
-        value: {
-          hash: url.hash,
-          host: url.host,
-          hostname: url.hostname,
-          href: url.href,
-          origin: url.origin,
-          pathname: url.pathname,
-          port: url.port,
-          protocol: url.protocol,
-          search: url.search,
-          toString() {
-          },
-        },
-      };
-    }
-    case 'dispatchEvent':
-      assertLocator(subject);
-      await subject.value.dispatchEvent(action.event);
-      break;
-    case 'select':
-      assertLocator(subject);
-      await subject.value.selectOption(action.value);
-      break;
-    case 'blur':
-      assertLocator(subject);
-      await subject.value.blur();
-      break;
-    case 'focus':
-      assertLocator(subject);
-      await subject.value.focus();
-      break;
-    case 'cookie.clear':
-      await page.context().clearCookies(action.filter ? {
-        name: action.filter.name,
-      } : action.filter);
-      break;
-    case 'cookie.get': {
-      const cookies = await page.context().cookies();
-      return {
-        type: 'value',
-        value: action.multiple
-          ? cookies
-          : (cookies.find((cookie) => cookie.name === action.name) ?? null),
-      };
-    }
-    case 'cookie.set':
-      await page.context().addCookies([{ ...action.cookie, domain: resolveDomain(page, action.cookie.domain) }]);
       break;
     default:
       throw new Error(`Action type "${(action as Record<string, unknown>).type}" is not implemented`);

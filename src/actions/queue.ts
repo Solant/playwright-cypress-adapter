@@ -1,6 +1,6 @@
-import { actionRegistry, Registry } from './registry';
+import { type actionRegistry, type InferActions } from './registry';
 
-type Actions = typeof actionRegistry extends Registry<infer T> ? T : never;
+type Actions = InferActions<typeof actionRegistry>;
 
 let queue: Array<Actions> = [];
 

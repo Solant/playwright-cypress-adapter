@@ -1,7 +1,12 @@
-import { JSHandle, Locator, Page } from '@playwright/test';
 import {
-  ClickActionModifiers, ClickActionPosition, LocatorSubject, Subject, usingLooseMode,
+  Cookie, Locator, Page,
+} from '@playwright/test';
+import {
+  ClickActionModifiers, ClickActionPosition, usingLooseMode,
 } from '../actions';
+import {
+  Subject, assertLocator, handleSubject, valueSubject,
+} from './subject';
 
 type PageAction<T> = {
   (subject: Subject, action: T, page: Page, aliasMap: Record<string, Subject>): Promise<Subject>,
@@ -17,20 +22,6 @@ export type SpecialSelector = { modifier: 'first' } | { modifier: 'last' } | {
 };
 
 export type Selector = Array<string | SpecialSelector>;
-
-function handleSubject(value: JSHandle): Subject {
-  return { type: 'handle', value };
-}
-
-function valueSubject(value: unknown): Subject {
-  return { type: 'value', value };
-}
-
-function assertLocator(arg: Subject): asserts arg is LocatorSubject {
-  if (arg.type !== 'locator') {
-    throw new Error(`Expected Locator subject, got ${arg.type}`);
-  }
-}
 
 function resolveSelectorItem(parent: Locator | Page, selector: Selector[number]): Locator {
   if (typeof selector === 'string') {
@@ -48,6 +39,13 @@ function resolveSelectorItem(parent: Locator | Page, selector: Selector[number])
     default:
       throw new Error(`Unknown selector modifier ${(selector as SpecialSelector).modifier}`);
   }
+}
+
+function resolveDomain(page: Page, domain?: string | '__CURRENT_DOMAIN__'): string | undefined {
+  if (domain === '__CURRENT_DOMAIN__') {
+    return `.${new URL(page.url()).hostname}`;
+  }
+  return domain;
 }
 
 export class Registry<T = unknown> {
@@ -86,6 +84,8 @@ export class Registry<T = unknown> {
     return fn.call(null, ...context);
   }
 }
+
+export type InferActions<T> = T extends Registry<infer T1> ? T1 : never;
 
 export const actionRegistry = new Registry()
   .action<{ type: 'handle', global: 'window' | 'document' }>(
@@ -230,6 +230,101 @@ export const actionRegistry = new Registry()
     'pause',
     async (subject, _action, page) => {
       await page.pause();
+      return subject;
+    },
+  )
+
+  .action<{ type: 'wait', value: number }>(
+    'wait',
+    async (subject, action, page) => {
+      await page.waitForTimeout(action.value);
+      return subject;
+    },
+  )
+
+  .action<{ type: 'scrollIntoView' }>(
+    'scrollIntoView',
+    async (subject) => {
+      assertLocator(subject);
+      await subject.value.scrollIntoViewIfNeeded({ timeout: 4000 });
+      return subject;
+    },
+  )
+
+  .action<{ type: 'dispatchEvent', event: string }>(
+    'dispatchEvent',
+    async (subject, action) => {
+      assertLocator(subject);
+      await subject.value.dispatchEvent(action.event);
+      return subject;
+    },
+  )
+
+  .action<{ type: 'blur' }>(
+    'blur',
+    async (subject) => {
+      assertLocator(subject);
+      await subject.value.blur();
+      return subject;
+    },
+  )
+
+  .action<{ type: 'focus' }>(
+    'focus',
+    async (subject) => {
+      assertLocator(subject);
+      await subject.value.focus();
+      return subject;
+    },
+  )
+
+  .action<{ type: 'location', key: keyof URL }>(
+    'location',
+    async (_subject, action, page) => {
+      const url = new URL(page.url());
+      if (action.key) {
+        return { type: 'value', value: url[action.key] };
+      }
+      return valueSubject({
+        hash: url.hash,
+        host: url.host,
+        hostname: url.hostname,
+        href: url.href,
+        origin: url.origin,
+        pathname: url.pathname,
+        port: url.port,
+        protocol: url.protocol,
+        search: url.search,
+        toString() {
+        },
+      });
+    },
+  )
+
+  .action<{ type: 'cookie.clear', filter?: { name: string } }>(
+    'cookie.clear',
+    async (subject, action, page) => {
+      await page.context().clearCookies(action.filter ? {
+        name: action.filter.name,
+      } : action.filter);
+      return subject;
+    },
+  )
+
+  .action<{ type: 'cookie.get', multiple: boolean, name?: string }>(
+    'cookie.get',
+    async (_subject, action, page) => {
+      const cookies = await page.context().cookies();
+      return valueSubject(action.multiple
+        ? cookies
+        : (cookies.find((cookie) => cookie.name === action.name) ?? null));
+    },
+  )
+
+  .action<{ type: 'cookie.set', cookie: Omit<Cookie, 'sameSite'> }>(
+    'cookie.set',
+    async (subject, action, page) => {
+      await page.context().addCookies([{ ...action.cookie, domain: resolveDomain(page, action.cookie.domain) }]);
       return subject;
     },
   );
