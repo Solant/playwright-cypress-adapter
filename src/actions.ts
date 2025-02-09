@@ -194,7 +194,7 @@ let queue: Array<Action> = [];
 /**
  * Apply callback ignoring playwright "strict mode"
  */
-async function usingLooseMode(elements: Locator, cb: (element: Locator) => Promise<void>) {
+export async function usingLooseMode(elements: Locator, cb: (element: Locator) => Promise<void>) {
   const count = await elements.count();
   if (count > 1) {
     for (let index = 0; index < count; index += 1) {
@@ -206,29 +206,11 @@ async function usingLooseMode(elements: Locator, cb: (element: Locator) => Promi
   }
 }
 
-function resolveSelectorItem(parent: Locator | Page, selector: Selector[number]): Locator {
-  if (typeof selector === 'string') {
-    return parent.locator(selector);
-  }
-  switch (selector.modifier) {
-    case 'contains':
-      return parent.getByText(selector.value, { exact: selector.exact });
-    case 'first':
-      return (parent as Locator).first();
-    case 'last':
-      return (parent as Locator).last();
-    case 'nth':
-      return (parent as Locator).nth(selector.value);
-    default:
-      throw new Error(`Unknown selector modifier ${(selector as SpecialSelector).modifier}`);
-  }
-}
-
 function expectWrapper<T>(arg: T, negation?: boolean) {
   return negation ? expect(arg).not : expect(arg);
 }
 
-type LocatorSubject = { type: 'locator', value: Locator };
+export type LocatorSubject = { type: 'locator', value: Locator };
 
 export type Subject =
   LocatorSubject
@@ -248,44 +230,6 @@ export async function evaluateAction(
   aliasMap: Record<string, Subject>,
 ): Promise<Subject> {
   switch (action.type) {
-    case 'handle': {
-      switch (action.global) {
-        case 'window':
-          return { type: 'handle', value: await page.evaluateHandle(() => window) };
-        case 'document':
-          return { type: 'handle', value: await page.evaluateHandle(() => window.document) };
-        default:
-          throw new Error('Unknown handle value');
-      }
-    }
-    case 'alias': {
-      // eslint-disable-next-line no-param-reassign
-      aliasMap[action.name] = subject;
-      return subject;
-    }
-    case 'subject': {
-      if (action.value instanceof Promise) {
-        return { type: 'value', value: await action.value };
-      }
-      return { type: 'value', value: action.value };
-    }
-    case 'locator': {
-      // resolve locator as alias
-      if (typeof action.selector[0] === 'string' && action.selector[0].startsWith('@')) {
-        return aliasMap[action.selector[0].substring(1)];
-      }
-
-      if (subject.value === null || action.root) {
-        return { type: 'locator', value: resolveSelectorItem(page, action.selector[0]) };
-      }
-      if (subject.type === 'locator') {
-        return { type: 'locator', value: resolveSelectorItem(subject.value, action.selector[0]) };
-      }
-      throw new Error('what');
-    }
-    case 'navigate':
-      await page.goto(action.url);
-      break;
     case 'assertion':
       switch (action.name) {
         case 'dom.length':
@@ -385,55 +329,6 @@ export async function evaluateAction(
         default:
           throw new Error(`Unknown assertion type "${(action as Record<string, unknown>).name}"`);
       }
-      break;
-    case 'fill':
-      assertLocator(subject);
-      await subject.value.fill(action.value);
-      break;
-    case 'clear':
-      assertLocator(subject);
-      await subject.value.clear();
-      break;
-    case 'keyboard':
-      switch (action.action) {
-        case 'press':
-          await page.keyboard.press(action.key);
-          break;
-        default:
-          throw new Error(`Keyboard action "${action.action}" is not implemented`);
-      }
-      break;
-    case 'check': {
-      assertLocator(subject);
-      await usingLooseMode(subject.value, (el) => el.setChecked(action.value));
-      break;
-    }
-    case 'click': {
-      assertLocator(subject);
-      const options = {
-        force: action.force,
-        button: action.button,
-        position: (typeof action.position === 'object') ? action.position : undefined,
-        modifiers: action.modifiers,
-      };
-
-      if (action.multiple) {
-        await usingLooseMode(
-          subject.value,
-          (el) => (action.double ? el.dblclick(options) : el.click(options)),
-        );
-      } else if (action.double) {
-        await subject.value.dblclick(options);
-      } else {
-        await subject.value.click(options);
-      }
-
-      break;
-    }
-    case 'title':
-      return { type: 'value', value: await page.title() };
-    case 'pause':
-      await page.pause();
       break;
     case 'wait':
       await page.waitForTimeout(action.value);
@@ -657,36 +552,3 @@ export function replaceQueue(index: number, action: Action) {
     queue[queue.length + index] = action;
   }
 }
-
-type PageAction = {
-  (subject: Subject, page: Page, aliasMap: Record<string, Subject>): Promise<Subject>,
-};
-
-class ActionRegistry<T = unknown> {
-  private map = new Map<string, PageAction>();
-
-  action<Payload extends {
-    type: string,
-  }>(type: Payload['type'], callback: PageAction): ActionRegistry<T extends unknown ? Payload : (T | Payload)> {
-    this.map.set(type, callback);
-    // @ts-expect-error type safe builder
-    return this;
-  }
-
-  evaluateAction(action: T, ...context: Parameters<PageAction>) {
-    // @ts-expect-error get action type
-    const type = action.type as string;
-    const fn = this.map.get(type);
-    if (!fn) {
-      throw new Error(`Unknown action "${type}"`);
-    }
-
-    return fn.call(null, ...context);
-  }
-}
-
-let a = new ActionRegistry()
-  .action<{ type: 'check', value: boolean }>('check', (_subject, page) => {
-    page.url();
-    return Promise.resolve({ type: 'value', value: 3 });
-  });
