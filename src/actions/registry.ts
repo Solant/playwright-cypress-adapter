@@ -1,5 +1,5 @@
 import {
-  Cookie, Locator, Page,
+  Cookie, expect as playwrightExpect, Locator, Page,
 } from '@playwright/test';
 import {
   ClickActionModifiers, ClickActionPosition, usingLooseMode,
@@ -48,6 +48,15 @@ function resolveDomain(page: Page, domain?: string | '__CURRENT_DOMAIN__'): stri
   return domain;
 }
 
+interface BaseAssert {
+  type: 'assertion',
+  negation?: boolean,
+}
+
+function expect<T>(assert: BaseAssert, arg: T) {
+  return assert.negation ? playwrightExpect(arg).not : playwrightExpect(arg);
+}
+
 export class Registry<T = unknown> {
   private map = new Map<string, PageAction<unknown>>();
 
@@ -64,10 +73,10 @@ export class Registry<T = unknown> {
     return this;
   }
 
-  assertion<Payload extends { type: 'assertion', name: string }>(
+  assertion<Payload extends { name: string }>(
     name: Payload['name'],
-    callback: PageAction<Payload>,
-  ): Registry<T extends unknown ? Payload : (T | Payload)> {
+    callback: PageAction<Payload & BaseAssert>,
+  ): Registry<T extends { type: string } ? (T | (Payload & BaseAssert)) : (Payload & BaseAssert)> {
     this.assertions.set(name, callback as PageAction<unknown>);
     // @ts-expect-error type safe builder
     return this;
@@ -325,6 +334,18 @@ export const actionRegistry = new Registry()
     'cookie.set',
     async (subject, action, page) => {
       await page.context().addCookies([{ ...action.cookie, domain: resolveDomain(page, action.cookie.domain) }]);
+      return subject;
+    },
+  )
+
+  .assertion<{ name: 'dom.length', value: number }>(
+    'dom.length',
+    async (subject, action) => {
+      if (subject.type === 'locator') {
+        await expect(action, subject.value).toHaveCount(action.value);
+      } else {
+        expect(action, subject.value).toHaveLength(action.value);
+      }
       return subject;
     },
   );

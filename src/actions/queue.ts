@@ -1,6 +1,6 @@
 import { type actionRegistry, type InferActions } from './registry';
 
-type Actions = InferActions<typeof actionRegistry>;
+export type Actions = InferActions<typeof actionRegistry>;
 
 let queue: Array<Actions> = [];
 

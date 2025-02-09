@@ -1,1 +1,1 @@
-export { pushQueue } from './queue';
+export { pushQueue, type Actions } from './queue';
