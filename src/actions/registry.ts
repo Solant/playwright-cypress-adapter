@@ -2,7 +2,7 @@ import {
   Cookie, expect as playwrightExpect, Locator, Page,
 } from '@playwright/test';
 import {
-  ClickActionModifiers, ClickActionPosition, usingLooseMode,
+  ClickActionModifiers, ClickActionPosition,
 } from '../actions';
 import {
   Subject, assertLocator, handleSubject, valueSubject,
@@ -349,6 +349,138 @@ export const actionRegistry = new Registry()
     'cookie.set',
     async (subject, action, page) => {
       await page.context().addCookies([{ ...action.cookie, domain: resolveDomain(page, action.cookie.domain) }]);
+      return subject;
+    },
+  )
+
+  .action<{ type: 'scrollTo', position: ClickActionPosition | { x: string | number, y: string | number } }>(
+    'scrollTo',
+    async (subject, action, page) => {
+      if (subject.type === 'value' && subject.value === null) {
+        await page.evaluate(({ position }) => {
+          const el = document.documentElement;
+          const options = { top: 0, left: 0 };
+          if (typeof position === 'string') {
+            switch (position) {
+              case 'topLeft':
+                options.top = 0;
+                options.left = 0;
+                break;
+              case 'left':
+                options.top = (el.scrollHeight - el.clientHeight) / 2;
+                options.left = 0;
+                break;
+              case 'bottomLeft':
+                options.top = el.scrollHeight - el.clientHeight;
+                options.left = 0;
+                break;
+              case 'top':
+                options.top = 0;
+                options.left = (el.scrollWidth - el.clientWidth) / 2;
+                break;
+              case 'center':
+                options.top = (el.scrollHeight - el.clientHeight) / 2;
+                options.left = (el.scrollWidth - el.clientWidth) / 2;
+                break;
+              case 'bottom':
+                options.top = el.scrollHeight - el.clientHeight;
+                options.left = (el.scrollWidth - el.clientWidth) / 2;
+                break;
+              case 'topRight':
+                options.top = 0;
+                options.left = el.scrollWidth - el.clientWidth;
+                break;
+              case 'right':
+                options.top = (el.scrollHeight - el.clientHeight) / 2;
+                options.left = el.scrollWidth - el.clientWidth;
+                break;
+              case 'bottomRight':
+                options.top = el.scrollHeight - el.clientHeight;
+                options.left = el.scrollWidth - el.clientWidth;
+                break;
+              default:
+                throw new Error(`Unknown position ${position}`);
+            }
+          } else {
+            if (typeof position.x === 'string') {
+              const percentage = Number.parseInt(position.x, 10);
+              options.left = ((el.scrollWidth - el.clientWidth) / 100) * percentage;
+            } else {
+              options.left = position.x;
+            }
+
+            if (typeof position.y === 'string') {
+              const percentage = Number.parseInt(position.y, 10);
+              options.top = ((el.scrollHeight - el.clientHeight) / 100) * percentage;
+            } else {
+              options.top = position.y;
+            }
+          }
+          el.scrollTo(options);
+        }, { position: action.position });
+        return subject;
+      }
+      assertLocator(subject);
+      await subject.value.evaluate((el, { position }) => {
+        const options = { top: 0, left: 0 };
+        if (typeof position === 'string') {
+          switch (position) {
+            case 'topLeft':
+              options.top = 0;
+              options.left = 0;
+              break;
+            case 'left':
+              options.top = (el.scrollHeight - el.clientHeight) / 2;
+              options.left = 0;
+              break;
+            case 'bottomLeft':
+              options.top = el.scrollHeight - el.clientHeight;
+              options.left = 0;
+              break;
+            case 'top':
+              options.top = 0;
+              options.left = (el.scrollWidth - el.clientWidth) / 2;
+              break;
+            case 'center':
+              options.top = (el.scrollHeight - el.clientHeight) / 2;
+              options.left = (el.scrollWidth - el.clientWidth) / 2;
+              break;
+            case 'bottom':
+              options.top = el.scrollHeight - el.clientHeight;
+              options.left = (el.scrollWidth - el.clientWidth) / 2;
+              break;
+            case 'topRight':
+              options.top = 0;
+              options.left = el.scrollWidth - el.clientWidth;
+              break;
+            case 'right':
+              options.top = (el.scrollHeight - el.clientHeight) / 2;
+              options.left = el.scrollWidth - el.clientWidth;
+              break;
+            case 'bottomRight':
+              options.top = el.scrollHeight - el.clientHeight;
+              options.left = el.scrollWidth - el.clientWidth;
+              break;
+            default:
+              throw new Error(`Unknown position ${position}`);
+          }
+        } else {
+          if (typeof position.x === 'string') {
+            const percentage = Number.parseInt(position.x, 10);
+            options.left = ((el.scrollWidth - el.clientWidth) / 100) * percentage;
+          } else {
+            options.left = position.x;
+          }
+
+          if (typeof position.y === 'string') {
+            const percentage = Number.parseInt(position.y, 10);
+            options.top = ((el.scrollHeight - el.clientHeight) / 100) * percentage;
+          } else {
+            options.top = position.y;
+          }
+        }
+        el.scrollTo(options);
+      }, { position: action.position });
       return subject;
     },
   )
