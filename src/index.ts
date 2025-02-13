@@ -1,7 +1,7 @@
 import { test as playwrightTest } from '@playwright/test';
 
 import {
-  resetQueue, cloneQueue, evaluateAction, Subject,
+  resetQueue, cloneQueue, evaluateAction, type Subject,
 } from './actions';
 import { cy, Cypress } from './cy';
 

@@ -1,4 +1,4 @@
-import { JSHandle, Locator } from '@playwright/test';
+import type { JSHandle, Locator } from '@playwright/test';
 
 export type LocatorSubject = { type: 'locator', value: Locator };
 

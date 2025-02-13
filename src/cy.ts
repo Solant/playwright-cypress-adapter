@@ -1,8 +1,8 @@
 import { arch, platform } from 'node:os';
 
 import {
-  ClickActionModifiers,
-  ClickActionPosition,
+  type ClickActionModifiers,
+  type ClickActionPosition,
   pushQueue,
 } from './actions';
 

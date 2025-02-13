@@ -1,6 +1,6 @@
 import {
   type Cookie,
-  expect, JSHandle, Locator, Page,
+  type JSHandle, type Locator, type Page,
 } from '@playwright/test';
 
 export type SpecialSelector = { modifier: 'first' } | { modifier: 'last' } | {
@@ -199,10 +199,6 @@ export async function usingLooseMode(elements: Locator, cb: (element: Locator) =
   }
 }
 
-function expectWrapper<T>(arg: T, negation?: boolean) {
-  return negation ? expect(arg).not : expect(arg);
-}
-
 export type LocatorSubject = { type: 'locator', value: Locator };
 
 export type Subject =
@@ -210,17 +206,11 @@ export type Subject =
   | { type: 'value', value: unknown }
   | { type: 'handle', value: JSHandle };
 
-function assertLocator(arg: Subject): asserts arg is LocatorSubject {
-  if (arg.type !== 'locator') {
-    throw new Error(`Expected Locator subject, got ${arg.type}`);
-  }
-}
-
 export async function evaluateAction(
   page: Page,
   action: Action,
   subject: Subject,
-  aliasMap: Record<string, Subject>,
+  _aliasMap: Record<string, Subject>,
 ): Promise<Subject> {
   switch (action.type) {
     default:

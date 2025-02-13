@@ -1,11 +1,9 @@
 import {
-  Cookie, expect as playwrightExpect, Locator, Page,
+  type Cookie, expect as playwrightExpect, type Locator, type Page,
 } from '@playwright/test';
+import type { ClickActionModifiers, ClickActionPosition } from '../actions';
 import {
-  ClickActionModifiers, ClickActionPosition,
-} from '../actions';
-import {
-  Subject, assertLocator, handleSubject, valueSubject,
+  type Subject, assertLocator, handleSubject, valueSubject,
 } from './subject';
 
 type PageAction<T> = {
