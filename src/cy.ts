@@ -1,9 +1,9 @@
 import { arch, platform } from 'node:os';
 
 import {
+  pushQueue,
   type ClickActionModifiers,
   type ClickActionPosition,
-  pushQueue,
 } from './actions';
 
 const LANGUAGE_CHAINS = [

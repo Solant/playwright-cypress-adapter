@@ -20,7 +20,7 @@ export const beforeEach = (testBody: any) => {
     // eslint-disable-next-line no-restricted-syntax
     for (const action of localQueue) {
       // eslint-disable-next-line no-await-in-loop
-      subject = await evaluateAction(page, action, subject, aliasMap);
+      subject = await evaluateAction(action, subject, page, aliasMap);
     }
   });
 };
@@ -37,7 +37,7 @@ export function it(name: string, testBody: any) {
     // eslint-disable-next-line no-restricted-syntax
     for (const action of localQueue) {
       // eslint-disable-next-line no-await-in-loop
-      subject = await evaluateAction(page, action, subject, aliasMap);
+      subject = await evaluateAction(action, subject, page, aliasMap);
     }
   });
 }

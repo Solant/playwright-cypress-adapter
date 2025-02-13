@@ -1,7 +1,6 @@
 import {
   type Cookie, expect as playwrightExpect, type Locator, type Page,
 } from '@playwright/test';
-import type { ClickActionModifiers, ClickActionPosition } from '../actions';
 import {
   type Subject, assertLocator, handleSubject, valueSubject,
 } from './subject';
@@ -38,6 +37,19 @@ function resolveSelectorItem(parent: Locator | Page, selector: Selector[number])
       throw new Error(`Unknown selector modifier ${(selector as SpecialSelector).modifier}`);
   }
 }
+
+export type ClickActionPosition =
+  'topLeft'
+  | 'top'
+  | 'topRight'
+  | 'left'
+  | 'center'
+  | 'right'
+  | 'bottomLeft'
+  | 'bottom'
+  | 'bottomRight';
+
+export type ClickActionModifiers = 'Control' | 'Alt' | 'Shift' | 'Meta';
 
 function resolveDomain(page: Page, domain?: string | '__CURRENT_DOMAIN__'): string | undefined {
   if (domain === '__CURRENT_DOMAIN__') {
@@ -95,7 +107,7 @@ export class Registry<T = unknown> {
     return this;
   }
 
-  evaluateAction(action: T, ...context: Parameters<PageAction<unknown>>) {
+  evaluateAction(action: T, subject: Subject, page: Page, aliasMap: Record<string, Subject>) {
     // @ts-expect-error get action type
     const type = action.type as string;
     const fn = this.map.get(type);
@@ -103,7 +115,7 @@ export class Registry<T = unknown> {
       throw new Error(`Unknown action "${type}"`);
     }
 
-    return fn.call(null, ...context);
+    return fn.call(null, subject, action, page, aliasMap);
   }
 }
 
@@ -300,7 +312,7 @@ export const actionRegistry = new Registry()
     },
   )
 
-  .action<{ type: 'location', key: keyof URL }>(
+  .action<{ type: 'location', key: keyof URL | undefined }>(
     'location',
     async (_subject, action, page) => {
       const url = new URL(page.url());
@@ -323,7 +335,7 @@ export const actionRegistry = new Registry()
     },
   )
 
-  .action<{ type: 'cookie.clear', filter?: { name: string } }>(
+  .action<{ type: 'cookie.clear', filter?: { name?: string, domain?: string } }>(
     'cookie.clear',
     async (subject, action, page) => {
       await page.context().clearCookies(action.filter ? {
@@ -333,7 +345,7 @@ export const actionRegistry = new Registry()
     },
   )
 
-  .action<{ type: 'cookie.get', multiple: boolean, name?: string }>(
+  .action<{ type: 'cookie.get', multiple: boolean, name?: string, domain?: string }>(
     'cookie.get',
     async (_subject, action, page) => {
       const cookies = await page.context().cookies();
@@ -347,6 +359,15 @@ export const actionRegistry = new Registry()
     'cookie.set',
     async (subject, action, page) => {
       await page.context().addCookies([{ ...action.cookie, domain: resolveDomain(page, action.cookie.domain) }]);
+      return subject;
+    },
+  )
+
+  .action<{ type: 'select', value: string | string[] }>(
+    'select',
+    async (subject, action) => {
+      assertLocator(subject);
+      await subject.value.selectOption(action.value);
       return subject;
     },
   )
