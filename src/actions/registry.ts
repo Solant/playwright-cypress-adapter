@@ -60,6 +60,7 @@ function resolveDomain(page: Page, domain?: string | '__CURRENT_DOMAIN__'): stri
 
 interface BaseAssert {
   type: 'assertion',
+  name: string,
   negation?: boolean,
 }
 
@@ -110,6 +111,17 @@ export class Registry<T = unknown> {
   evaluateAction(action: T, subject: Subject, page: Page, aliasMap: Record<string, Subject>) {
     // @ts-expect-error get action type
     const type = action.type as string;
+
+    if (type === 'assertion') {
+      const { name } = (action as BaseAssert);
+      const fn = this.assertions.get(name);
+      if (!fn) {
+        throw new Error(`Unknown assertion "${name}"`);
+      }
+
+      return fn.call(null, subject, action, page, aliasMap);
+    }
+
     const fn = this.map.get(type);
     if (!fn) {
       throw new Error(`Unknown action "${type}"`);
