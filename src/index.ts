@@ -1,12 +1,12 @@
-import { test } from '@playwright/test';
+import { test as playwrightTest } from '@playwright/test';
 
 import {
-  resetQueue, cloneQueue, evaluateAction, Subject,
-} from './actions';
+  resetQueue, cloneQueue, evaluateAction, type Subject,
+} from './action-queue';
 import { cy, Cypress } from './cy';
 
-export const { describe } = test;
-export const context = test.describe;
+export const { describe } = playwrightTest;
+export const context = playwrightTest.describe;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const beforeEach = (testBody: any) => {
@@ -14,13 +14,13 @@ export const beforeEach = (testBody: any) => {
   testBody();
   const localQueue = cloneQueue();
 
-  test.beforeEach(async ({ page }) => {
+  playwrightTest.beforeEach(async ({ page }) => {
     let subject: Subject = { type: 'value', value: null };
     const aliasMap: Record<string, Subject> = {};
     // eslint-disable-next-line no-restricted-syntax
     for (const action of localQueue) {
       // eslint-disable-next-line no-await-in-loop
-      subject = await evaluateAction(page, action, subject, aliasMap);
+      subject = await evaluateAction(action, subject, page, aliasMap);
     }
   });
 };
@@ -31,13 +31,13 @@ export function it(name: string, testBody: any) {
   testBody();
   const localQueue = cloneQueue();
 
-  test(name, async ({ page }) => {
+  playwrightTest(name, async ({ page }) => {
     let subject: Subject = { type: 'value', value: null };
     const aliasMap: Record<string, Subject> = {};
     // eslint-disable-next-line no-restricted-syntax
     for (const action of localQueue) {
       // eslint-disable-next-line no-await-in-loop
-      subject = await evaluateAction(page, action, subject, aliasMap);
+      subject = await evaluateAction(action, subject, page, aliasMap);
     }
   });
 }

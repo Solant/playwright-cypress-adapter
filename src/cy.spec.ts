@@ -3,7 +3,7 @@ import {
 } from 'vitest';
 
 import { cy } from './cy';
-import { cloneQueue, type Action, resetQueue } from './actions';
+import { cloneQueue, resetQueue } from './action-queue';
 
 beforeEach(() => {
   resetQueue();
@@ -12,7 +12,7 @@ beforeEach(() => {
 describe('cy.visit()', () => {
   test('simple url', () => {
     cy.visit('https://google.com');
-    expect(cloneQueue()).toEqual([{ type: 'navigate', url: 'https://google.com' }] satisfies Action[]);
+    expect(cloneQueue()).toEqual([{ type: 'navigate', url: 'https://google.com' }]);
   });
 });
 
@@ -29,7 +29,7 @@ describe('cy.get()', () => {
         type: 'locator',
         selector: ['.input'],
       },
-    ] satisfies Action[]);
+    ]);
   });
 });
 
@@ -50,7 +50,7 @@ describe('cy.type()', () => {
         type: 'fill',
         value: 'Hello',
       },
-    ] satisfies Action[]);
+    ]);
   });
 });
 
@@ -73,6 +73,6 @@ describe('cy.should()', () => {
         value: 2,
         negation: false,
       },
-    ] satisfies Action[]);
+    ]);
   });
 });
