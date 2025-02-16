@@ -4,7 +4,7 @@ import {
   pushQueue,
   type ClickActionModifiers,
   type ClickActionPosition,
-} from './actions';
+} from './action-queue';
 
 const LANGUAGE_CHAINS = [
   'to',

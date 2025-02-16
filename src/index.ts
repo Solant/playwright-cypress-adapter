@@ -2,7 +2,7 @@ import { test as playwrightTest } from '@playwright/test';
 
 import {
   resetQueue, cloneQueue, evaluateAction, type Subject,
-} from './actions';
+} from './action-queue';
 import { cy, Cypress } from './cy';
 
 export const { describe } = playwrightTest;

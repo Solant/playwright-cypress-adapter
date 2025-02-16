@@ -3,7 +3,7 @@ import {
 } from 'vitest';
 
 import { cy } from './cy';
-import { cloneQueue, resetQueue } from './actions';
+import { cloneQueue, resetQueue } from './action-queue';
 
 beforeEach(() => {
   resetQueue();
