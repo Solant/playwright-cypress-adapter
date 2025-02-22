@@ -12,6 +12,6 @@ export default {
       format: 'es',
     },
   ],
-  plugins: [typescript({ check: false })],
+  plugins: [typescript()],
   external: ['@playwright/test', /node:/],
 };

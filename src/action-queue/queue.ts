@@ -1,6 +1,10 @@
-import { type actionRegistry, type InferActions } from './registry';
+import { type InferActions, Registry } from './registry';
+import { actionRegistry } from './actions';
+import { assertionRegistry } from './assertions';
 
-export type Actions = InferActions<typeof actionRegistry>;
+export const registry = Registry.compose(actionRegistry, assertionRegistry);
+
+export type Actions = InferActions<typeof registry>;
 
 let queue: Array<Actions> = [];
 

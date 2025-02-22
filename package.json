@@ -4,7 +4,7 @@
   "description": "Run cypress test cases in playwright as they are",
   "type": "module",
   "scripts": {
-    "build": "tsc --noEmit && rollup --config",
+    "build": "rollup --config",
     "test": "pnpm run lint && pnpm run test:unit && pnpm run test:e2e",
     "test:unit": "vitest run",
     "test:e2e": "playwright test",
