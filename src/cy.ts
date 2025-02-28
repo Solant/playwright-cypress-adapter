@@ -583,4 +583,5 @@ export const Cypress = {
     debug() {
     },
   },
+  testingType: 'e2e',
 };

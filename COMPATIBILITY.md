@@ -143,7 +143,7 @@
 | [Cypress.SelectorPlayground()](https://docs.cypress.io/api/cypress-api/selector-playground-api) |      🕓      |    🕓     |       |
 | [Cypress.session()](https://docs.cypress.io/api/cypress-api/session)                            |      🕓      |    🕓     |       |
 | [Cypress.spec()](https://docs.cypress.io/api/cypress-api/spec)                                  |      🕓      |    🕓     |       |
-| [Cypress.testingType()](https://docs.cypress.io/api/cypress-api/testing-type)                   |      🕓      |    🕓     |       |
+| [Cypress.testingType()](https://docs.cypress.io/api/cypress-api/testing-type)                   |      ✅       |     -     |       |
 | [Cypress.version](https://docs.cypress.io/api/cypress-api/version)                              |      ✅       |     -     |       |
 
 ### 1. Forcing interaction
