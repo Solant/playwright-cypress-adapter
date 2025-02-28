@@ -36,8 +36,10 @@ function parseBddChain(assertion: string): { negation: boolean, assertion: strin
 }
 
 class Cy {
-  // eslint-disable-next-line no-empty-function
-  constructor(private root: boolean) {
+  private root: boolean;
+
+  constructor(root: boolean) {
+    this.root = root;
   }
 
   private selfOrChild(): Cy {
